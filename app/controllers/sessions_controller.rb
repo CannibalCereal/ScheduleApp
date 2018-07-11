@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_email(params[:session][:email])
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
-      redirect_to '/landing'
+      redirect_to root_path
     else
       flash[:notice] = "Incorrect login/password. 4 more failed attempts and this computer will explode."
       redirect_to '/login'
