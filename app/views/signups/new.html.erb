@@ -1,0 +1,22 @@
+<div class = "signup-banner">
+  <div class = "signup-container">
+    <%= form_for @user, url: signups_path do |u| %>
+    <div class = "field">
+      <%= u.label :email %> <br>
+      <%= u.email_field :email %>
+    </div>
+    <div class = "field">
+      <%= u.label :name %> <br>
+      <%= u.text_field :name %>
+    </div>
+    <div class = "field">
+      <%= u.label :password %> <br>
+      <%= u.password_field :password %>
+    </div>
+    <div class = "submit">
+      <br>
+      <%= u.submit "Sign Up" %>
+    </div>
+    <% end %>
+  </div>
+</div>
