@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   get '/login' => 'sessions#new'
   delete 'logout' => 'sessions#destroy'
-  
+
 end
