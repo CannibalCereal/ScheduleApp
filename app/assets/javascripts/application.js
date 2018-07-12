@@ -13,12 +13,15 @@
 //= require jquery
 //= require moment
 //= require rails-ujs
-//= require fullcalendar
 //= require activestorage
 //= require turbolinks
 //= require_tree .
 $(document).ready(function() {
   $('#calendar').fullCalendar({
+    header: { center: 'agendaWeek,month'},
+    editable: false, // Don't allow editing of events
+    handleWindowResize: true,
+    selectable: true
 
   })
 });
