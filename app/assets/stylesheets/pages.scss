@@ -2,12 +2,24 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 //Use FCC89B or apricot for color scheme
+$color-1:#fe7ba3;
+$color-2:#fe97a4;
+$color-3:#fccfa6;
 h1 {
-  color: #fe7ba3;
+  color: $color-1;
   font-family: 'Playfair Display', serif;
 }
 .calendar-container {
   height: 80%;
   width: 80%;
   margin: 0 auto;
+}
+.btn-primary, .btn {
+  background-color: $color-1;
+  border-color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary,  {
+    color: #fff !important;
+    background-color: $color-2 !important;
+    border-color:	$color-3 !important; /*set the color you want here*/
 }
