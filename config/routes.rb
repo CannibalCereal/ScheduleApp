@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
 
   root 'pages#home'
+  get '/eventpage' => 'pages#eventpage'
+  get '/createevent' => 'events#new'
   get '/home' => 'pages#home'
   get '/landing' => 'pages#landing'
   resources 'signups'
@@ -12,5 +14,6 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#new'
   delete 'logout' => 'sessions#destroy'
   resources 'groups'
+  resources 'events'
 
 end

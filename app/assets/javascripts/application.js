@@ -20,11 +20,20 @@
 //= require_tree .
 
 $(document).ready(function() {
-  $('#calendar').fullCalendar({
-    header: { center: 'agendaWeek,month'},
+  $('#homepageCalendar').fullCalendar({
+    header: { left: 'prev,today,next',
+              center: 'title',
+              right: 'agendaWeek,month'
+            },
     editable: false, // Don't allow editing of events
     handleWindowResize: true,
     selectable: true
 
+  })
+});
+
+$(function() {
+  $('#nameOfCalendar').fullCalendar({
+    
   })
 });

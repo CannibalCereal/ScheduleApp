@@ -1,0 +1,19 @@
+<h1> Create Event </h1>
+<br>
+
+<div>
+  <%= form_for(Event.new) do |e| %>
+    <%= e.label :title %> <br>
+    <%= e.text_field :title %> <br>
+
+    <%= e.hidden_field :host, :value => current_user.id %>
+
+    <%= e.label :location %> <br>
+    <%= e.text_field :location %> <br>
+
+    <%= e.label :description %> <br>
+    <%= e.text_area :description %> <br>
+
+    <%= e.submit %>
+  <% end %>
+</div>

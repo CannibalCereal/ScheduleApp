@@ -5,4 +5,7 @@ class PagesController < ApplicationController
 
   def home
   end
+
+  def eventpage
+  end
 end
