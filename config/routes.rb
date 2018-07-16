@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root 'pages#home'
   get '/eventpage' => 'pages#eventpage'
+  get '/grouppage' => 'pages#grouppage'
   get '/createevent' => 'events#new'
   get '/home' => 'pages#home'
   get '/landing' => 'pages#landing'

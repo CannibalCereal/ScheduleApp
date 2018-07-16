@@ -10,6 +10,17 @@
   </head>
 
   <body>
+    <header>
+      <nav class="global_nav">
+        <ul>
+          <li><h1><%= link_to " Corral ", root_path, class: 'linkseffect', data: {turbolinks: 'false'} %></h1></li>
+            <li class='topPadding'><%= link_to " Events ", '/eventpage', class: 'linkseffect', data: { turbolinks: 'false'} %></li>
+            <li class='topPadding'> <%= link_to " Groups ", '/grouppage', class: 'linkseffect' %> </li>
+        </ul>
+    </nav>
+  </header>
+
+
     <%= yield %>
     <% if current_user %>
       <%= button_to "Logout", logout_path, method: "delete" %>

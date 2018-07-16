@@ -4,7 +4,7 @@
 <div>
   <%= form_for(Event.new) do |e| %>
     <%= e.label :title %> <br>
-    <%= e.text_field :title %> <br>
+    <%= e.text_field :title, :required => true %> <br>
 
     <%= e.hidden_field :host, :value => current_user.id %>
 

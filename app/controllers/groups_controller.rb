@@ -4,7 +4,11 @@ class GroupsController < ApplicationController
   end
   def create
     @group = Group.new(group_params)
-    @group.save
+    if @group.save
+      redirect_to '/'
+    else
+      redirect_to '/grouppage'
+    end
   end
 
   private

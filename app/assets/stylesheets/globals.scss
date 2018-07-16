@@ -1,0 +1,41 @@
+@import "constants";
+*{
+  font-family: "Playfair Display", serif;
+}
+
+.global_nav {
+
+  ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li {
+    color: $color-1;
+    display: block;
+    float: left;
+    text-align: center;
+    padding: .6em .8em;
+    font-size: 120%;
+  }
+
+  .topPadding {
+    padding-top: 1.3em;
+  }
+
+  .linkseffect {
+    color: $color-1;
+    width: 100%;
+    text-decoration: none;
+  }
+  .linkseffect:focus {
+    color: $color-2;
+    text-decoration: none;
+  }
+  .linkseffect:hover {
+    color: $color-3;
+    width: 100%;
+    text-decoration: none;
+  }
+}
