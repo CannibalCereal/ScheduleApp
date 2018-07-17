@@ -1,8 +1,7 @@
 <h1> Create Event </h1>
-<br>
-
-<div>
-  <%= form_for(Event.new) do |e| %>
+<div class='sidebyside'>
+  <div class='createEventForm'>
+    <%= form_for(Event.new) do |e| %>
     <%= e.label :title %> <br>
     <%= e.text_field :title, :required => true %> <br>
 
@@ -15,5 +14,9 @@
     <%= e.text_area :description %> <br>
 
     <%= e.submit %>
-  <% end %>
+    <% end %>
+  </div>
+
+  <div id='createEventCalendar'></div>
+
 </div>

@@ -26,14 +26,31 @@ $(document).ready(function() {
               right: 'agendaWeek,month'
             },
     editable: false, // Don't allow editing of events
-    handleWindowResize: true,
-    selectable: true
+    handleWindowResize: true
 
   })
 });
 
 $(function() {
-  $('#nameOfCalendar').fullCalendar({
-    
+  $('#createEventCalendar').fullCalendar({
+    header: { left: 'prev,today,next',
+              center: 'title',
+              right: 'agendaWeek,month'
+            },
+    handleWindowResize: true,
+    defaultView: 'agendaWeek',
+    selectable: true,
+    select: function (start, end, jsEvent, view) {
+      $("#createEventCalendar").fullCalendar('addEventSource', [{
+        start: start,
+        end: end,
+        rendering: 'background',
+        block: true,
+      }, ]);
+      $("#calendar").fullCalendar("unselect");
+    },
+    selectOverlap: function(event) {
+      return ! event.block;
+    }
   })
 });

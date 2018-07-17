@@ -22,6 +22,21 @@ h2 {
   justify-content: center;
 }
 
+.sidebyside {
+  display: table;
+  margin: 3%;
+  width: 80%;
+
+  .createEventForm {
+    display: table-cell;
+    width: 35%;
+  }
+  #createEventCalendar {
+    display: table-cell;
+    width: 65%;
+  }
+}
+
 .calendar-container {
   height: 80%;
   width: 60%;
