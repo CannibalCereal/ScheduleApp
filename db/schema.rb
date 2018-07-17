@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_14_215724) do
+ActiveRecord::Schema.define(version: 2018_07_17_204309) do
 
   create_table "events", force: :cascade do |t|
     t.string "title"
@@ -24,7 +24,16 @@ ActiveRecord::Schema.define(version: 2018_07_14_215724) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
-    t.string "admin"
+    t.integer "admin_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.string "email"
+    t.integer "group_id"
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.string "token"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 

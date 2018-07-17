@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
   resources 'groups'
   resources 'events'
+  resources 'invite'
 
 end
