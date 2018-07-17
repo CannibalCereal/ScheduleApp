@@ -27,7 +27,6 @@ $(document).ready(function() {
             },
     editable: false, // Don't allow editing of events
     handleWindowResize: true
-
   })
 });
 
@@ -39,18 +38,18 @@ $(function() {
             },
     handleWindowResize: true,
     defaultView: 'agendaWeek',
+    editable: true,
     selectable: true,
+    selectOverlap: false,
     select: function (start, end, jsEvent, view) {
       $("#createEventCalendar").fullCalendar('addEventSource', [{
         start: start,
         end: end,
-        rendering: 'background',
-        block: true,
       }, ]);
-      $("#calendar").fullCalendar("unselect");
+      $("#createEventCalendar").fullCalendar("unselect");
     },
-    selectOverlap: function(event) {
-      return ! event.block;
-    }
+     eventClick: function (event, jsEvent, view) {
+       $('#createEventCalendar').fullCalendar('removeEvents', event._id);
+    },
   })
 });
