@@ -24,7 +24,8 @@ ActiveRecord::Schema.define(version: 2018_07_17_204309) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
-    t.integer "admin_id"
+    t.string "admin"
+    t.datetime "updated_at", null: false
   end
 
   create_table "invites", force: :cascade do |t|
