@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :require_user, only: [:home]
+  before_action :require_user, only: [:home, :eventpage, :grouppage]
   def landing
   end
 
@@ -7,5 +7,8 @@ class PagesController < ApplicationController
   end
 
   def eventpage
+  end
+
+  def grouppage
   end
 end

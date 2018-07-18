@@ -14,11 +14,11 @@
       <nav class="global_nav">
         <ul>
           <li><h1><%= link_to " Corral ", root_path, class: 'linkseffect', data: {turbolinks: 'false'} %></h1></li>
+          <% if current_user %>
             <li class='topPadding'><%= link_to " Events ", '/eventpage', class: 'linkseffect', data: { turbolinks: 'false'} %></li>
             <li class='topPadding'> <%= link_to " Groups ", '/grouppage', class: 'linkseffect' %> </li>
-            <% if current_user %>
-              <li class='topPadding'> <%= link_to " Logout ", logout_path, method: 'delete', class: 'linkseffect' %> </li>
-            <% end %>
+            <li class='topPadding'> <%= link_to " Logout ", logout_path, method: 'delete', class: 'linkseffect' %> </li>
+          <% end %>
         </ul>
     </nav>
   </header>
