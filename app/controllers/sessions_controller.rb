@@ -7,12 +7,11 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to root_path
     else
-      flash[:notice] = "Incorrect login/password. 4 more failed attempts and this computer will explode."
-      redirect_to '/login'
+      redirect_to '/landing'
     end
   end
   def destroy
     session[:user_id] = nil
-    redirect_to '/login'
+    redirect_to '/landing'
   end
 end

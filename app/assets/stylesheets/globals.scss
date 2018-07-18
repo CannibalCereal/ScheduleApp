@@ -12,7 +12,7 @@
   }
 
   li {
-    color: $color-1;
+    color: $color-main;
     display: block;
     float: left;
     text-align: center;
@@ -23,19 +23,57 @@
   .topPadding {
     padding-top: 1.3em;
   }
-
+  .modbutton {
+    position: relative;
+    float:right;
+  }
   .linkseffect {
-    color: $color-1;
+    color: $color-main;
     width: 100%;
     text-decoration: none;
   }
   .linkseffect:focus {
-    color: $color-2;
+    color: $color-sub;
     text-decoration: none;
   }
   .linkseffect:hover {
-    color: $color-3;
+    color: $color-sub;
     width: 100%;
     text-decoration: none;
   }
+}
+header {
+  outline: 3px dashed blue;
+  background-color: $color-background;
+}
+.login-field {
+  width:100%;
+}
+.login-button {
+  margin-right: -1.3em;
+}
+.btn-primary, .btn {
+  background-color: $color-main;
+  border-color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary,  {
+    color: #fff !important;
+    background-color: $color-sub !important;
+    border-color:	$color-highlight !important; /*set the color you want here*/
+}
+.btnPadding{
+  padding-top:1.3em;
+}
+.btn.login-button, .btn.signup-button {
+  padding: 12px 22px;
+}
+.btn.signup-button {
+  box-shadow: 0 3px 0 0 $color-main;
+}
+.btn.login-button{
+  background: none;
+}
+.btn-primary.login-button {
+	border: 2px solid $color-sub;
+	color: $color-yellow;
 }

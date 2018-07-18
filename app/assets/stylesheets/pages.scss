@@ -5,12 +5,12 @@
 @import "constants";
 
 h1 {
-  color: $color-1;
+  color: $color-main;
   font-family: 'Playfair Display', serif;
 }
 
 h2 {
-  color: $color-3;
+  color: $color-highlight;
   font-family: 'Playfair Display', serif;
 }
 
@@ -41,13 +41,4 @@ h2 {
   height: 80%;
   width: 60%;
   margin: 0 auto;
-}
-.btn-primary, .btn {
-  background-color: $color-1;
-  border-color: #fff;
-}
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary,  {
-    color: #fff !important;
-    background-color: $color-2 !important;
-    border-color:	$color-3 !important; /*set the color you want here*/
 }

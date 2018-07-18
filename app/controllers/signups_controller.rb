@@ -8,8 +8,7 @@ class SignupsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to root_path
     else
-      flash[:notice] = "Could not create user. Please try again."
-      redirect_to '/signups/new'
+      redirect_to '/landing'
     end
   end
 
