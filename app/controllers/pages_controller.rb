@@ -10,5 +10,6 @@ class PagesController < ApplicationController
   end
 
   def grouppage
+    @group = Group.new
   end
 end

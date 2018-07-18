@@ -16,11 +16,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_for(Group.new) do |g| %>
+        <%= form_for @group do |g| %>
         <%= g.label :name %>
         <%= g.text_field :name, :required => true, :class => "form-field"%>
 
-        <%= g.hidden_field :admin, :value => current_user.id %>
+        <%= g.hidden_field :admin_id, :value => current_user.id %>
       </div>
       <div class="modal-footer">
         <%= g.submit "Create", class: "btn btn-primary"%>
