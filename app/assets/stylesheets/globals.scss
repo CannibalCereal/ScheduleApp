@@ -43,7 +43,6 @@
   }
 }
 header {
-  outline: 3px dashed blue;
   background-color: $color-background;
 }
 .login-field {
@@ -75,5 +74,5 @@ header {
 }
 .btn-primary.login-button {
 	border: 2px solid $color-sub;
-	color: $color-yellow;
+	color: $color-text;
 }
