@@ -1,42 +1,40 @@
 <div class='soloCenter'>
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tribeModal">
     Create a tribe
   </button>
 </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Tribe</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <%= form_for(Group.new) do |g| %>
-            <%= g.label :name %>
-            <%= g.text_field :name, :required => true%>
+<!-- Modal -->
+<div class="modal fade" id="tribeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Tribe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for(Group.new) do |g| %>
+        <%= g.label :name %>
+        <%= g.text_field :name, :required => true, :class => "form-field"%>
 
-            <%= g.hidden_field :admin, :value => current_user.id %>
-            <%= g.submit %>
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        <%= g.hidden_field :admin, :value => current_user.id %>
+      </div>
+      <div class="modal-footer">
+        <%= g.submit "Create", class: "btn btn-primary"%>
+        <% end %>
       </div>
     </div>
   </div>
+</div>
 
-  <%= form_for Invite.new, :url => 'invite#create' do |f| %>
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <%= f.label :group_id %>
-      <%= f.number_field :group_id %>
-      <%= f.label :email %>
-      <%= f.email_field :email %>
-      <%= f.submit %>
-  <% end %>
+<%= form_for Invite.new, :url => 'invite#create' do |f| %>
+<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+<%= f.label :group_id %>
+<%= f.number_field :group_id %>
+<%= f.label :email %>
+<%= f.email_field :email %>
+<%= f.submit %>
+<% end %>

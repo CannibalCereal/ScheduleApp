@@ -41,8 +41,8 @@
         </div>
         <div class="modal-body">
           <%= form_for(:session, url: login_path) do |f| %>
-          <%= f.email_field :email, :placeholder => "Email", :class => "login-field" %> <br>
-          <%= f.password_field :password, :placeholder => "Password", :class => "login-field" %>
+          <%= f.email_field :email, :placeholder => "Email", :class => "form-field" %> <br>
+          <%= f.password_field :password, :placeholder => "Password", :class => "form-field" %>
         </div>
         <div class="modal-footer">
           <%= f.submit "Log in", class: "btn btn-primary" %>
@@ -64,11 +64,11 @@
         <div class="modal-body">
           <%= form_for User.create, url: signups_path do |u| %>
             <%= u.label :email %> <br>
-            <%= u.email_field :email, :class => "login-field"%>
+            <%= u.email_field :email, :class => "form-field"%>
             <%= u.label :name %> <br>
-            <%= u.text_field :name, :class => "login-field"%>
+            <%= u.text_field :name, :class => "form-field"%>
             <%= u.label :password %>
-            <%= u.password_field :password, :class => "login-field"%>
+            <%= u.password_field :password, :class => "form-field"%>
         </div>
         <div class="modal-footer">
           <%= u.submit "Signup", class: "btn btn-primary" %>
