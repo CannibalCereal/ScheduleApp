@@ -6,6 +6,7 @@
 </div>
 
 <!-- Modal -->
+<%= form_for @group do |g| %>
 <div class="modal fade" id="tribeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -16,7 +17,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_for @group do |g| %>
+
         <%= g.label :name %>
         <%= g.text_field :name, :required => true, :class => "form-field"%>
 
@@ -24,12 +25,12 @@
       </div>
       <div class="modal-footer">
         <%= g.submit "Create", class: "btn btn-primary"%>
-        <% end %>
       </div>
+
     </div>
   </div>
 </div>
-
+<% end %>
 <%= form_for Invite.new, :url => 'invite#create' do |f| %>
 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 <%= f.label :group_id %>
