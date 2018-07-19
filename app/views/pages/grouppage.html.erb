@@ -33,8 +33,9 @@
 <% end %>
 <%= form_for Invite.new, :url => 'invite#create' do |f| %>
 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-<%= f.label :group_id %>
-<%= f.number_field :group_id %>
+<!--<%= f.label :group_id %>
+<%= f.number_field :group_id %>-->
+<%= f.collection_select(:group_id, Group.joins(:memberships).where(memberships: {user_id: current_user.id}), :id, :name) %>
 <%= f.label :email %>
 <%= f.email_field :email %>
 <%= f.submit %>
