@@ -6,6 +6,13 @@ class InviteController < ApplicationController
     @invite.sender_id = current_user.id # set the sender to the current user
     if @invite.save
       if(@invite.recipient_id != nil)
+        Membership.where('user_id = ?', @invite.recipient_id).select(:group_id).each do |m|
+          if(m.group_id == @invite.group_id)
+            #TODO FOR JOSH ONLY: render a modal to let the user know they fucked up
+            redirect_to '/eventpage'
+            return
+          end
+        end
         Membership.addUserToGroup(@invite.recipient_id, @invite.group_id)
         InviteMailer.inviteExistingUser(@invite).deliver
       else

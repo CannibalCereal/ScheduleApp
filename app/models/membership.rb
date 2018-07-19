@@ -4,8 +4,6 @@ class Membership < ApplicationRecord
 
   def self.addUserToGroup(userid, groupid)
     @membership = Membership.new({"user_id" => userid, "group_id" => groupid})
-    if @membership.save
-      logger.debug "ADDED TO MEMBERSHIP"
-    end
+    @membership.save
   end
 end
