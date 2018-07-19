@@ -62,7 +62,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <%= form_for User.create, url: signups_path do |u| %>
+          <%= form_for User.new, url: signups_path do |u| %>
+            <% if @token != nil %>
+              <%= u.hidden_field :invite_token, :value => @token %>
+            <% end %>
             <%= u.label :email %> <br>
             <%= u.email_field :email, :class => "form-field"%>
             <%= u.label :name %> <br>

@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     if @group.save
-      Membership.newgroup(current_user.id, @group.id)
+      Membership.addUserToGroup(current_user.id, @group.id)
       redirect_to '/'
     else
       redirect_to '/grouppage'

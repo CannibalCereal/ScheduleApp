@@ -4,8 +4,13 @@ class InviteController < ApplicationController
   def create
     @invite = Invite.new(invite_params) # Make a new Invite
     @invite.sender_id = current_user.id # set the sender to the current user
-    if @invite.save!
-      InviteMailer.new_user_invite(@invite, '/signups?token='+ @invite.token).deliver #send the invite data to our mailer to deliver the email
+    if @invite.save
+      if(@invite.recipient_id != nil)
+        Membership.addUserToGroup(@invite.recipient_id, @invite.group_id)
+        InviteMailer.inviteExistingUser(@invite).deliver
+      else
+        InviteMailer.inviteNewUser(@invite, '/landing?token='+ @invite.token).deliver #send the invite data to our mailer to deliver the email
+      end
     else
       redirect_to '/'
       # oh no, creating an new invitation failed
