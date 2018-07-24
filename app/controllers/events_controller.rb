@@ -6,17 +6,13 @@ class EventsController < ApplicationController
   end
 
   def cal
-    session[:something] = params[:arr]
-    JSON.parse(session[:something]).each do |e|
-      logger.debug e['start']
-      logger.debug e['end']
-    end
+    Availability.holdData(params[:arr])
   end
 
   def create
     @event = Event.new(event_params)
     if(@event.save)
-      # Availability.foo(@event.id, current_user.id, e['start'], e['end'])
+      Availability.createAvailabilities(@event.id, current_user.id)
       redirect_to '/eventpage'
     else
       redirect_to '/createevent'
