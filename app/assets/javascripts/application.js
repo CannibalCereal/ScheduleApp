@@ -22,19 +22,40 @@ $(document).ready(function() {
   $('#homepageCalendar').fullCalendar({
     header: { left: 'prev,today,next',
     center: 'title',
-    right: 'agendaWeek,month'
-  },
+    right: 'agendaWeek,month' },
   editable: false, // Don't allow editing of events
   handleWindowResize: true
 })
 });
 
 $(function() {
+  $('#eventCreateForm').submit(function (event) {
+    console.log("FORM SUBMITTED");
+    let a = [];
+    $("#createEventCalendar").fullCalendar('getEventSources').forEach(function(e) {
+      let res = new Object();
+      res.start = e.eventDefs[0].dateProfile.start.format();
+      res.end = e.eventDefs[0].dateProfile.end.format();
+      a.push(res);
+    });
+    $.ajax({
+      type: 'POST',
+      url: '/eventcal',
+      data: {'arr': JSON.stringify(a)},
+      success: function(data){
+        //data is whatever you RETURN from your controller.
+        //an array, string, object...something
+      }
+    });
+    console.log(a);
+  });
+});
+
+$(function() {
   $('#createEventCalendar').fullCalendar({
     header: { left: 'prev,today,next',
     center: 'title',
-    right: 'agendaWeek,month'
-  },
+    right: 'agendaWeek,month' },
   contentHeight:600,
   eventColor: '#624763',
   handleWindowResize: true,
@@ -48,6 +69,13 @@ $(function() {
       end: end,
     }, ]);
     $("#createEventCalendar").fullCalendar("unselect");
+    // $('#createEventCalendar').fullCalendar('getEventSources').forEach(function(e) {
+    //   let res = new Object();
+    //   res.start = e.eventDefs[0].dateProfile.start.format();
+    //   res.end = e.eventDefs[0].dateProfile.end.format();
+    //   this.output.push(res);
+    // });
+    // $('#hostAvailability').val(JSON.stringify(out));
   },
   //eventClick: function (event, jsEvent, view) {
   //  $('#createEventCalendar').fullCalendar('removeEvents', event._id);
@@ -59,21 +87,16 @@ $(function() {
   $('#createEventCalendar').fullCalendar('removeEvents',event._id);
 });
 },*/
-eventMouseover:function(event,domEvent,view){
+  eventMouseover:function(event,domEvent,view){
+    var el=$(this);
+    var layer='<div id="events-layer" class="fc-transparent"><span id="delbut'+event.id+'" style="width:10%;" class="btn btn-default trash btn-xs">X</span></div>';
+    el.append(layer);
+    el.find(".fc-bg").css("pointer-events","none");
 
-  var el=$(this);
-
-  var layer='<div id="events-layer" class="fc-transparent"><span id="delbut'+event.id+'" style="width:10%;" class="btn btn-default trash btn-xs">X</span></div>';
-  el.append(layer);
-
-  el.find(".fc-bg").css("pointer-events","none");
-
-  $("#delbut"+event.id).click(function(){
-    $('#createEventCalendar').fullCalendar('removeEvents', event._id);
-  });
-},
-eventMouseout:function(event){
-  $("#events-layer").remove();
-},
-})
+    $("#delbut"+event.id).click(function(){
+      $('#createEventCalendar').fullCalendar('removeEvents', event._id);
+    });
+  },
+  eventMouseout:function(event){ $("#events-layer").remove(); },
+});
 });
