@@ -1,12 +1,36 @@
-<div class='soloCenter'>
+<div class = "sidebyside">
+  <div class = "group-list">
+    <% i = 0 %>
+    <% @groups.each do |group| %>
+    <p id = "<%=(i+1).to_s%>" class = "aGroup"><%= group.name %></p>
+    <% i+= 1 %>
+    <% end %>
+  </div>
+
+
+  <div class="card-stack">
+    <div class="card-list">
+      <% for i in 0..(@groups.length - 1)%>
+      <div class="card" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+        <% @groups[i].users.each do |user| %>
+        <p><%= user.name %></p>
+        <% end %> <br>
+      </div>
+      <%end %>
+    </div>
+  </div>
+</div>
+
+
+
+<div>
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tribeModal">
     Create a tribe
   </button>
 </div>
-
 <!-- Modal -->
-<%= form_for @group do |g| %>
+<%= form_for Group.new do |g| %>
 <div class="modal fade" id="tribeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">

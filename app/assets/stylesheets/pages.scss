@@ -14,14 +14,6 @@ h2 {
   font-family: 'Playfair Display', serif;
 }
 
-.soloCenter {
-  width: 100%;
-  height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .sidebyside {
   display: table;
   margin: 3%;
@@ -35,10 +27,25 @@ h2 {
     display: table-cell;
     width: 65%;
   }
+  .card-list {
+    display: table-cell;
+    width: 70%;
+  }
+  .group-list {
+    display: table-cell;
+    width: 30%;
+    vertical-align: middle;
+  }
 }
 
 .calendar-container {
   height: 80%;
   width: 60%;
   margin: 0 auto;
+}
+.card {
+  width: 250px;
+  height: 250px;
+  display:none;
+  position: absolute;
 }

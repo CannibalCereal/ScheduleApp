@@ -100,3 +100,32 @@ $(function() {
   eventMouseout:function(event){ $("#events-layer").remove(); },
 });
 });
+
+$(document).on('click','.aGroup', function(){
+  var theID = '#card-' + $(this).attr('id');
+  if ($(theID).is(":hidden")){
+    $(theID).slideDown("fast");
+    $(theID).addClass("hideLater");
+  } else {
+    $(theID).slideUp("fast");
+    $(theID).removeClass("hideLater");
+  }
+});
+//OBJECTIVE: when you click outside of a card, hide the active card
+//TO DO: When a card is active and you click a different group, hide the active card\
+//Compare the card id to the group id
+$(function() {
+  $('body').on('click.hideCards', function (e) {
+    let cardToHide = $('.card.hideLater');
+    if (cardToHide && cardToHide.attr('id')) {
+      if ($(e.target).attr('id') !== cardToHide.attr('id').charAt(cardToHide.attr('id').length - 1)){
+        if(!$(e.target).hasClass('hideLater'))
+        {
+          let cardID = '#' + cardToHide.attr('id');
+          $(cardID).hide();
+          $(cardID).removeClass('hideLater');
+        }
+      }
+    }
+  });
+});

@@ -10,6 +10,10 @@ class PagesController < ApplicationController
   end
 
   def grouppage
-    @group = Group.new
+    #@group = Group.find_by_id(1)
+    #@members = @group.users 
+
+    @user = User.find_by_id(current_user.id)
+    @groups = @user.groups
   end
 end
