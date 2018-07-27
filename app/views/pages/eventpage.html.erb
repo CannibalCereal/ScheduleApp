@@ -1,6 +1,11 @@
 <h1> Events Page </h1>
 <div class="display-card" id="pendingEvents">
   <h2> Pending Events </h2>
+  <ul>
+    <% @allMyEvents.each do |event| %>
+      <li><%= event.title %></li>
+    <% end %>
+  </ul>
 </div>
 
 <div class="display-card" id="finalEvents">

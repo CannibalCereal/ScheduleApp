@@ -25,6 +25,7 @@
         </li>
         <% else %>
         <li class='topPadding modbutton'> <%= link_to " Logout ", logout_path, method: 'delete', class: 'linkseffect' %> </li>
+        <li class='topPadding modbutton'> <%= current_user.name %> </li>
         <% end %>
       </ul>
     </nav>

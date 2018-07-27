@@ -8,6 +8,17 @@ class PagesController < ApplicationController
   end
 
   def eventpage
+    # LiSt OF ALL EVENTS YOU ARE A PART OF:
+      # GET ALL YOUR GROUPS
+      myGroups = User.find_by_id(current_user.id).groups
+      # FOR EACH OF YOUR GROUPS, LIST ALL EVENTS
+      @allMyEvents = []
+      myGroups.each do |g|
+        events = Event.where("group_id = ?", g.id)
+        events.each do |e|
+          @allMyEvents << e
+        end
+      end
   end
 
   def grouppage

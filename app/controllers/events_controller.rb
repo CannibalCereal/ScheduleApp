@@ -11,6 +11,9 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     if @event.save
       Availability.createAvailabilities(current_user.id, @event.id)
+      Group.find_by_id(@event.group_id).users.each do |u|
+        InviteMailer.sendPendingEvent(@event, u.email).deliver
+      end
       redirect_to '/eventpage'
     else
       redirect_to '/createevent'
