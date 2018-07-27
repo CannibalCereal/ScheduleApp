@@ -19,6 +19,9 @@ h2 {
   margin: 3%;
   width: 80%;
 
+  .grouplist {
+    height: 75%;
+  }
   .createEventForm {
     display: table-cell;
     width: 35%;
@@ -27,13 +30,15 @@ h2 {
     display: table-cell;
     width: 65%;
   }
-  .card-list {
+  .left30 {
+    display: table-cell;
+    width: 30%;
+  }
+  .right70 {
     display: table-cell;
     width: 70%;
   }
-  .group-list {
-    display: table-cell;
-    width: 30%;
+  .vert {
     vertical-align: middle;
   }
 }

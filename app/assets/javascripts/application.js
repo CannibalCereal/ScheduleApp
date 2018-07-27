@@ -20,12 +20,14 @@
 
 $(document).ready(function() {
   $('#homepageCalendar').fullCalendar({
-    header: { left: 'prev,today,next',
-    center: 'title',
-    right: 'agendaWeek,month' },
+    header: {
+      left: 'prev,today,next',
+      center: 'title',
+      right: 'agendaWeek,month'
+    },
   editable: false, // Don't allow editing of events
   handleWindowResize: true
-})
+});
 });
 
 $(function() {
@@ -38,16 +40,15 @@ $(function() {
       res.end = e.eventDefs[0].dateProfile.end.format();
       a.push(res);
     });
+    if(a.length === 0) {
+      alert("You must provide availabilities for your guests.\n Please try again.");
+      return false;
+    }
     $.ajax({
       type: 'POST',
       url: '/eventcal',
-      data: {'arr': JSON.stringify(a)},
-      success: function(data){
-        //data is whatever you RETURN from your controller.
-        //an array, string, object...something
-      }
+      data: {'arr': JSON.stringify(a)}
     });
-    console.log(a);
   });
 });
 
@@ -69,24 +70,7 @@ $(function() {
       end: end,
     }, ]);
     $("#createEventCalendar").fullCalendar("unselect");
-    // $('#createEventCalendar').fullCalendar('getEventSources').forEach(function(e) {
-    //   let res = new Object();
-    //   res.start = e.eventDefs[0].dateProfile.start.format();
-    //   res.end = e.eventDefs[0].dateProfile.end.format();
-    //   this.output.push(res);
-    // });
-    // $('#hostAvailability').val(JSON.stringify(out));
   },
-  //eventClick: function (event, jsEvent, view) {
-  //  $('#createEventCalendar').fullCalendar('removeEvents', event._id);
-  //},
-  /*eventRender: function(event, element) {
-  element.find(".fc-bg").css("pointer-events","none");
-  element.append("<span id='btnDeleteEvent'>X</span>" );
-  element.find("#btnDeleteEvent").click(function(){
-  $('#createEventCalendar').fullCalendar('removeEvents',event._id);
-});
-},*/
   eventMouseover:function(event,domEvent,view){
     var el=$(this);
     var layer='<div id="events-layer" class="fc-transparent"><span id="delbut'+event.id+'" style="width:10%;" class="btn btn-default trash btn-xs">X</span></div>';
@@ -101,6 +85,12 @@ $(function() {
 });
 });
 
+//TODO when finalized events happen, display all finalized events for the groups selected.
+$(document).on('click', '.homeGroups', function() {
+  var clickedID = $(this).attr('id');
+});
+
+//GROUP PAGE FUNCTIONALITY: Display group card when group name is clicked. Don't show multiple cards, stupidass
 $(document).on('click','.aGroup', function(){
   var theID = '#card-' + $(this).attr('id');
   if ($(theID).is(":hidden")){
@@ -111,9 +101,6 @@ $(document).on('click','.aGroup', function(){
     $(theID).removeClass("hideLater");
   }
 });
-//OBJECTIVE: when you click outside of a card, hide the active card
-//TO DO: When a card is active and you click a different group, hide the active card\
-//Compare the card id to the group id
 $(function() {
   $('body').on('click.hideCards', function (e) {
     let cardToHide = $('.card.hideLater');

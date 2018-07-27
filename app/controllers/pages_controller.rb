@@ -4,6 +4,7 @@ class PagesController < ApplicationController
   end
 
   def home
+    @groups = User.find_by_id(current_user.id).groups
   end
 
   def eventpage
@@ -11,7 +12,7 @@ class PagesController < ApplicationController
 
   def grouppage
     #@group = Group.find_by_id(1)
-    #@members = @group.users 
+    #@members = @group.users
 
     @user = User.find_by_id(current_user.id)
     @groups = @user.groups

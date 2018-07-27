@@ -1,5 +1,5 @@
-<div class = "sidebyside">
-  <div class = "group-list">
+<div class = "sidebyside grouplist">
+  <div class = "group-list left30 vert">
     <% i = 0 %>
     <% @groups.each do |group| %>
     <p id = "<%=(i+1).to_s%>" class = "aGroup"><%= group.name %></p>
@@ -7,17 +7,14 @@
     <% end %>
   </div>
 
-
-  <div class="card-stack">
-    <div class="card-list">
-      <% for i in 0..(@groups.length - 1)%>
-      <div class="card" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
-        <% @groups[i].users.each do |user| %>
-        <p><%= user.name %></p>
-        <% end %> <br>
-      </div>
-      <%end %>
+  <div class="card-list right70">
+    <% for i in 0..(@groups.length - 1)%>
+    <div class="card" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+      <% @groups[i].users.each do |user| %>
+      <p><%= user.name %></p>
+      <% end %> <br>
     </div>
+    <%end %>
   </div>
 </div>
 

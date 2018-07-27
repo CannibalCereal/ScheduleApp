@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2018_07_24_211509) do
 
   create_table "events", force: :cascade do |t|
     t.string "title"
-    t.string "host"
-    t.string "group"
+    t.integer "host_id"
+    t.integer "group_id"
     t.string "location"
     t.string "description"
     t.datetime "created_at", null: false

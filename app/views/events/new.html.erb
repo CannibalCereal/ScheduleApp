@@ -2,11 +2,14 @@
 <div class='sidebyside'>
   <div class='createEventForm'>
     <%= form_for(Event.new,  :html => {:id => "eventCreateForm"}) do |e| %>
+
+    <%= e.label :group %>
+    <%= e.collection_select(:group_id, Group.joins(:memberships).where(memberships: {user_id: current_user.id}), :id, :name) %> <br>
+
     <%= e.label :title %> <br>
     <%= e.text_field :title, :required => true %> <br>
 
-    <%= e.hidden_field :host, :value => current_user.id %>
-
+    <%= e.hidden_field :host_id, :value => current_user.id %>
     <%= e.label :location %> <br>
     <%= e.text_field :location %> <br>
 
@@ -17,6 +20,7 @@
     <% end %>
   </div>
 
-  <div id='createEventCalendar'></button></div>
-
+  <div class='right70'>
+    <div id='createEventCalendar'></button></div>
+  </div>
 </div>
