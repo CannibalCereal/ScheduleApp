@@ -28,4 +28,10 @@ class PagesController < ApplicationController
     @user = User.find_by_id(current_user.id)
     @groups = @user.groups
   end
+  def addmember
+    #Grabs group_id from clicking add member icon from group card
+    group_id = params[:group][-1]
+    logger.debug "THIS IS GROUP ID LOOK AT IT " + group_id
+    Group.holdGroup(group_id)
+  end
 end

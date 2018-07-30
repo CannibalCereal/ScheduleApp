@@ -17,7 +17,7 @@ h2 {
 .sidebyside {
   display: table;
   margin: 3%;
-  width: 80%;
+  width: 100%;
 
   .grouplist {
     height: 75%;
@@ -41,6 +41,30 @@ h2 {
   .vert {
     vertical-align: middle;
   }
+  .card {
+    margin-left: 15%;
+    display: table-cell;
+    width: 30%;
+    height: 70%;
+    display:none;
+    position: absolute;
+    overflow-y: scroll;
+  }
+}
+.group-list {
+  .btn {
+    width: 100%;
+  }
+}
+.card {
+  p {
+    color: black;
+  }
+  #card-icon {
+    position: absolute;
+    left: 90%;
+    top: 1%;
+  }
 }
 
 .calendar-container {
@@ -48,9 +72,12 @@ h2 {
   width: 60%;
   margin: 0 auto;
 }
-.card {
-  width: 250px;
-  height: 250px;
-  display:none;
-  position: absolute;
+.aGroup {
+  margin-bottom: 2%;
 }
+.aGroup.btn-primary {
+  background-color: $color-highlight;
+}
+//.invite-btn {
+  //display:none;
+//}

@@ -96,7 +96,8 @@ $(document).on('click','.aGroup', function(){
   if ($(theID).is(":hidden")){
     $(theID).slideDown("fast");
     $(theID).addClass("hideLater");
-  } else {
+  }
+  else {
     $(theID).slideUp("fast");
     $(theID).removeClass("hideLater");
   }
@@ -104,9 +105,25 @@ $(document).on('click','.aGroup', function(){
 $(function() {
   $('body').on('click.hideCards', function (e) {
     let cardToHide = $('.card.hideLater');
-    if (cardToHide && cardToHide.attr('id')) {
+    console.log($(e.target).attr('id'));
+    console.log("this is cardtohide's id " + cardToHide.attr('id'))
+    if ($(e.target).hasClass('material-icons') || $(e.target).hasClass('invite')){
+      //if I click on add member to group card, don't hide card
+      $.ajax({
+        type: 'POST',
+        url: '/group/new_member',
+        data: {'group': cardToHide.attr('id')}
+      });
+      $(e.target).on('click.showModal', function(){
+        console.log("MODAL WAS CLICKED");
+        document.getElementById("inviteModalLabel").innerHTML=cardToHide.attr('id');
+        $("#inviteModal").modal('show');
+
+      });
+    }
+    else if (cardToHide && cardToHide.attr('id')) {
       if ($(e.target).attr('id') !== cardToHide.attr('id').charAt(cardToHide.attr('id').length - 1)){
-        if(!$(e.target).hasClass('hideLater'))
+        if(!$(e.target).hasClass('card'))
         {
           let cardID = '#' + cardToHide.attr('id');
           $(cardID).hide();

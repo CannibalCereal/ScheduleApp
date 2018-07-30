@@ -2,31 +2,69 @@
   <div class = "group-list left30 vert">
     <% i = 0 %>
     <% @groups.each do |group| %>
-    <p id = "<%=(i+1).to_s%>" class = "aGroup"><%= group.name %></p>
+    <button type = "button" id = "<%=(i+1).to_s%>" class = "aGroup btn btn-primary"><%= group.name %></button> <br>
     <% i+= 1 %>
     <% end %>
+    <div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tribeModal">
+        Create a tribe
+      </button>
+    </div>
   </div>
 
   <div class="card-list right70">
     <% for i in 0..(@groups.length - 1)%>
-    <div class="card" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+    <div class="card text-center" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+      <h5 class = "card-title" id = "card-head" style = "text-align:left; margin-left: 2%;">
+        Members <%= (@groups[i].users.length) %>
+      </h5>
+      <i class = "material-icons" id = "card-icon">
+        add
+      </i>
       <% @groups[i].users.each do |user| %>
-      <p><%= user.name %></p>
+      <p class = "card-member"><%= user.name %></p>
       <% end %> <br>
     </div>
     <%end %>
+
   </div>
 </div>
 
 
-
 <div>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tribeModal">
-    Create a tribe
-  </button>
+  <%= form_for Invite.new, :url => 'invite#create' do |f| %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <!--<%= f.label :group_id %>
+  <%= f.number_field :group_id %>-->
+  <%= f.collection_select(:group_id, Group.joins(:memberships).where(memberships: {user_id: current_user.id}), :id, :name) %>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+  <%= f.submit %>
+  <% end %>
 </div>
-<!-- Modal -->
+<!-- Invite New Tribe Member Modal-->
+<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header invite">
+        <h5 class="modal-title invite" id="inviteModalLabel"></h5>
+        <button type="button" class="close invite" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body invite">
+
+      </div>
+      <div class="modal-footer invite">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- New Tribe Modal -->
 <%= form_for Group.new do |g| %>
 <div class="modal fade" id="tribeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
@@ -51,13 +89,4 @@
     </div>
   </div>
 </div>
-<% end %>
-<%= form_for Invite.new, :url => 'invite#create' do |f| %>
-<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-<!--<%= f.label :group_id %>
-<%= f.number_field :group_id %>-->
-<%= f.collection_select(:group_id, Group.joins(:memberships).where(memberships: {user_id: current_user.id}), :id, :name) %>
-<%= f.label :email %>
-<%= f.email_field :email %>
-<%= f.submit %>
 <% end %>

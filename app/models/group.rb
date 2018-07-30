@@ -15,4 +15,13 @@ class Group < ApplicationRecord
       return "#279AF1"
     end
   end
+
+  #TO DO: PassGroup is not getting group id from holdGroup wtf?
+  def self.holdGroup(group_id)
+    @group_id_new = group_id
+  end
+  def self.passGroup
+    return @group_id_new
+  end
+
 end

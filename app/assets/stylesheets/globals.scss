@@ -51,7 +51,7 @@ header {
 .login-button {
   margin-right: -1.3em;
 }
-.btn-primary, .btn {
+.btn-primary {
   background-color: $color-main;
   border-color: #fff;
 }
@@ -60,6 +60,7 @@ header {
     background-color: $color-sub !important;
     border-color:	$color-highlight !important; /*set the color you want here*/
 }
+
 .btnPadding{
   padding-top:1.3em;
 }
