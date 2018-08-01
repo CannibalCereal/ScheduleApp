@@ -93,15 +93,25 @@ $(document).on('click', '.homeGroups', function() {
 //GROUP PAGE FUNCTIONALITY: Display group card when group name is clicked. Don't show multiple cards, stupidass
 $(document).on('click','.aGroup', function(e){
   let groupID = $(e.target).attr('id').split('-')[1];
-  var theID = '#card-' + groupID;
-  if ($(theID).is(":hidden")){
-    $(theID).slideDown("fast");
-    $(theID).addClass("hideLater");
+  let theID = '#card-' + groupID;
+  let currentCard = $('.card.hideLater');
+  //If a card is currently showing
+  if(currentCard && currentCard.attr('id')) {
+    //If the group you clicked matches the opened card
+    let cardIDNum = $(currentCard).attr('id').split('-')[1];
+    if(groupID === cardIDNum) {
+      $(theID).slideUp("fast");
+      $(theID).removeClass("hideLater");
+      return;
+    }
+    //If you clicked a group NOT matching opened card
+    else {
+      $(currentCard).hide();
+      $(currentCard).removeClass('hideLater');
+    }
   }
-  else {
-    $(theID).slideUp("fast");
-    $(theID).removeClass("hideLater");
-  }
+  $(theID).slideDown("fast");
+  $(theID).addClass("hideLater");
 });
 
 $(function() {
@@ -114,29 +124,5 @@ $(function() {
       data: {'group': idToPass}
     });
     $("#inviteModal").modal('show');
-  });
-});
-
-$(function() {
-  $('body').on('click.hideCards', function (e) {
-    let cardToHide = $('.card.hideLater');
-    //Check if the card exists first
-    if(cardToHide && cardToHide.attr('id')) {
-      //Check if user clicked outside card and outside modal
-      if(!($(e.target).hasClass('card') || $(e.target).parents('.card').length)) {
-        //Same check but with the invite modal
-        if(!($(e.target).hasClass('invite') || $(e.target).parents('.invite').length)) {
-          //Check if user clicked on the group name that matches the card
-          let groupID = $(e.target).attr('id').split('-')[1];
-          let cardID = cardToHide.attr('id').split('-')[1];
-          if(groupID !== cardID)
-          {
-            let cardID = '#' + cardToHide.attr('id');
-            $(cardID).hide();
-            $(cardID).removeClass('hideLater');
-          }
-        }
-      }
-    }
   });
 });
