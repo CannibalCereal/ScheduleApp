@@ -91,8 +91,9 @@ $(document).on('click', '.homeGroups', function() {
 });
 
 //GROUP PAGE FUNCTIONALITY: Display group card when group name is clicked. Don't show multiple cards, stupidass
-$(document).on('click','.aGroup', function(){
-  var theID = '#card-' + $(this).attr('id');
+$(document).on('click','.aGroup', function(e){
+  let groupID = $(e.target).attr('id').split('-')[1];
+  var theID = '#card-' + groupID;
   if ($(theID).is(":hidden")){
     $(theID).slideDown("fast");
     $(theID).addClass("hideLater");
@@ -106,13 +107,12 @@ $(document).on('click','.aGroup', function(){
 $(function() {
   $(document).on('click', '.addMember', function(e) {
     let parentCard = $(e.target).parents('.card')[0];
-    let idToPass = $(parentCard).attr('id');
+    let idToPass = $(parentCard).attr('id').split('-')[1];
     $.ajax({
       type: 'POST',
       url: '/group/new_member',
       data: {'group': idToPass}
     });
-    document.getElementById("inviteModalLabel").innerHTML="Add Member to " + idToPass;
     $("#inviteModal").modal('show');
   });
 });
@@ -127,7 +127,9 @@ $(function() {
         //Same check but with the invite modal
         if(!($(e.target).hasClass('invite') || $(e.target).parents('.invite').length)) {
           //Check if user clicked on the group name that matches the card
-          if($(e.target).attr('id') !== cardToHide.attr('id').charAt(cardToHide.attr('id').length - 1))
+          let groupID = $(e.target).attr('id').split('-')[1];
+          let cardID = cardToHide.attr('id').split('-')[1];
+          if(groupID !== cardID)
           {
             let cardID = '#' + cardToHide.attr('id');
             $(cardID).hide();

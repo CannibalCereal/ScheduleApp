@@ -1,9 +1,7 @@
 <div class = "sidebyside grouplist">
   <div class = "group-list left30 vert">
-    <% i = 0 %>
     <% @groups.each do |group| %>
-    <button type = "button" id = "<%=(i+1).to_s%>" class = "aGroup btn btn-primary"><%= group.name %></button> <br>
-    <% i+= 1 %>
+    <button type = "button" id = "group-<%= group.id %>" class = "aGroup btn btn-primary"><%= group.name %></button> <br>
     <% end %>
     <div>
       <!-- Button trigger modal -->
@@ -15,7 +13,7 @@
 
   <div class="card-list right70">
     <% for i in 0..(@groups.length - 1)%>
-    <div class="card text-center" id = "<%= "card-" + (i+1).to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+    <div class="card text-center" id = "<%= "card-" + @groups[i].id.to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
       <h5 class = "card-title" id = "card-head" style = "text-align:left; margin-left: 2%;">
         Members <%= (@groups[i].users.length) %>
       </h5>
@@ -48,7 +46,7 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header invite">
-        <h5 class="modal-title invite" id="inviteModalLabel"></h5>
+        <h5 class="modal-title invite" id="inviteModalLabel">Add Member to Tribe</h5>
         <button type="button" class="close invite" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
