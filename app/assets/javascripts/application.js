@@ -102,32 +102,37 @@ $(document).on('click','.aGroup', function(){
     $(theID).removeClass("hideLater");
   }
 });
+
+$(function() {
+  $(document).on('click', '.addMember', function(e) {
+    let parentCard = $(e.target).parents('.card')[0];
+    let idToPass = $(parentCard).attr('id');
+    $.ajax({
+      type: 'POST',
+      url: '/group/new_member',
+      data: {'group': idToPass}
+    });
+    document.getElementById("inviteModalLabel").innerHTML="Add Member to " + idToPass;
+    $("#inviteModal").modal('show');
+  });
+});
+
 $(function() {
   $('body').on('click.hideCards', function (e) {
     let cardToHide = $('.card.hideLater');
-    console.log($(e.target).attr('id'));
-    console.log("this is cardtohide's id " + cardToHide.attr('id'))
-    if ($(e.target).hasClass('material-icons') || $(e.target).hasClass('invite')){
-      //if I click on add member to group card, don't hide card
-      $.ajax({
-        type: 'POST',
-        url: '/group/new_member',
-        data: {'group': cardToHide.attr('id')}
-      });
-      $(e.target).on('click.showModal', function(){
-        console.log("MODAL WAS CLICKED");
-        document.getElementById("inviteModalLabel").innerHTML=cardToHide.attr('id');
-        $("#inviteModal").modal('show');
-
-      });
-    }
-    else if (cardToHide && cardToHide.attr('id')) {
-      if ($(e.target).attr('id') !== cardToHide.attr('id').charAt(cardToHide.attr('id').length - 1)){
-        if(!$(e.target).hasClass('card'))
-        {
-          let cardID = '#' + cardToHide.attr('id');
-          $(cardID).hide();
-          $(cardID).removeClass('hideLater');
+    //Check if the card exists first
+    if(cardToHide && cardToHide.attr('id')) {
+      //Check if user clicked outside card and outside modal
+      if(!($(e.target).hasClass('card') || $(e.target).parents('.card').length)) {
+        //Same check but with the invite modal
+        if(!($(e.target).hasClass('invite') || $(e.target).parents('.invite').length)) {
+          //Check if user clicked on the group name that matches the card
+          if($(e.target).attr('id') !== cardToHide.attr('id').charAt(cardToHide.attr('id').length - 1))
+          {
+            let cardID = '#' + cardToHide.attr('id');
+            $(cardID).hide();
+            $(cardID).removeClass('hideLater');
+          }
         }
       }
     }

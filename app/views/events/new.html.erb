@@ -1,6 +1,6 @@
 <h1> Create Event </h1>
 <div class='sidebyside'>
-  <div class='createEventForm'>
+  <div class='left30'>
     <%= form_for(Event.new,  :html => {:id => "eventCreateForm"}) do |e| %>
 
     <%= e.label :group %>
@@ -21,6 +21,6 @@
   </div>
 
   <div class='right70'>
-    <div id='createEventCalendar'></button></div>
+    <div class='calendar' id='createEventCalendar'></div>
   </div>
 </div>

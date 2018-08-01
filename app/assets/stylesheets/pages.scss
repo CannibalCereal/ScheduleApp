@@ -18,10 +18,8 @@ h2 {
   display: table;
   margin: 3%;
   width: 100%;
+  height: 90%;
 
-  .grouplist {
-    height: 75%;
-  }
   .createEventForm {
     display: table-cell;
     width: 35%;
@@ -37,6 +35,9 @@ h2 {
   .right70 {
     display: table-cell;
     width: 70%;
+    .calendar {
+      width: 80%;
+    }
   }
   .vert {
     vertical-align: middle;
@@ -65,12 +66,6 @@ h2 {
     left: 90%;
     top: 1%;
   }
-}
-
-.calendar-container {
-  height: 80%;
-  width: 60%;
-  margin: 0 auto;
 }
 .aGroup {
   margin-bottom: 2%;
