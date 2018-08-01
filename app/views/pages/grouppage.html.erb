@@ -30,17 +30,6 @@
 </div>
 
 
-<div>
-  <%= form_for Invite.new, :url => 'invite#create' do |f| %>
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <!--<%= f.label :group_id %>
-  <%= f.number_field :group_id %>-->
-  <%= f.collection_select(:group_id, Group.joins(:memberships).where(memberships: {user_id: current_user.id}), :id, :name) %>
-  <%= f.label :email %>
-  <%= f.email_field :email %>
-  <%= f.submit %>
-  <% end %>
-</div>
 <!-- Invite New Tribe Member Modal-->
 <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
@@ -52,6 +41,13 @@
         </button>
       </div>
       <div class="modal-body invite">
+        <%= form_for Invite.new, :url => 'invite#create' do |f| %>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <%= f.hidden_field :group_id, :value => Group.passGroup %>
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+        <%= f.submit %>
+        <% end %>
 
       </div>
       <div class="modal-footer invite">

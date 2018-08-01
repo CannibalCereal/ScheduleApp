@@ -30,7 +30,7 @@ class PagesController < ApplicationController
   end
   def addmember
     #Grabs group_id from clicking add member icon from group card
-    group_id = params[:group][-1]
+    group_id = params[:group]
     logger.debug "THIS IS GROUP ID LOOK AT IT " + group_id
     Group.holdGroup(group_id)
   end
