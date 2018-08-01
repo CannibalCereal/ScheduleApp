@@ -17,7 +17,7 @@ h2 {
 .sidebyside {
   display: table;
   margin: 3%;
-  width: 100%;
+  width: 90%;
   height: 90%;
 
   .createEventForm {
@@ -43,13 +43,14 @@ h2 {
     vertical-align: middle;
   }
   .card {
-    margin-left: 15%;
+    margin-left: 20%;
     display: table-cell;
     width: 30%;
     height: 70%;
     display:none;
     position: absolute;
     overflow-y: scroll;
+    border-width: thick;
   }
 }
 .group-list {

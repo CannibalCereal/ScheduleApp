@@ -1,3 +1,4 @@
+<div class = "main-container">
 <div class = "sidebyside grouplist">
   <div class = "group-list left30 vert">
     <% @groups.each do |group| %>
@@ -13,7 +14,7 @@
 
   <div class="card-list right70">
     <% for i in 0..(@groups.length - 1)%>
-    <div class="card text-center" id = "<%= "card-" + @groups[i].id.to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
+    <div class="card text-center border-dark" id = "<%= "card-" + @groups[i].id.to_s %>" style="background-color:<%= Group.colorGen(i) %>;">
       <h5 class = "card-title" id = "card-head" style = "text-align:left; margin-left: 2%;">
         Members <%= (@groups[i].users.length) %>
       </h5>
@@ -28,7 +29,7 @@
 
   </div>
 </div>
-
+</div>
 
 <!-- Invite New Tribe Member Modal-->
 <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
