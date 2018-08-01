@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/eventpage' => 'pages#eventpage'
   get '/grouppage' => 'pages#grouppage'
   get '/createevent' => 'events#new'
+  get '/events/:id' => 'events#show', as: :individualEvent
   get '/home' => 'pages#home'
   get '/landing' => 'pages#landing'
   resources 'signups'

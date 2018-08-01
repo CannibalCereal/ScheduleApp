@@ -3,6 +3,10 @@ class EventsController < ApplicationController
   def new
   end
 
+  def show
+    @individual = Event.find(params[:id])
+  end
+
   def cal
     Availability.holdData(params[:arr])
   end

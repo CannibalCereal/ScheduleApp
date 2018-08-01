@@ -3,7 +3,7 @@
   <h2> Pending Events </h2>
   <ul>
     <% @allMyEvents.each do |event| %>
-      <li><%= event.title %></li>
+      <li><%= link_to event.title, individualEvent_path(event) %></li>
     <% end %>
   </ul>
 </div>
