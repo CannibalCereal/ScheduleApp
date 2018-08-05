@@ -14,6 +14,11 @@ h2 {
   font-family: 'Playfair Display', serif;
 }
 
+.calendar {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .sidebyside {
   display: table;
   margin: 3%;
@@ -35,9 +40,6 @@ h2 {
   .right70 {
     display: table-cell;
     width: 70%;
-    .calendar {
-      width: 80%;
-    }
   }
   .vert {
     vertical-align: middle;

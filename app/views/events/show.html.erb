@@ -1,6 +1,12 @@
 
 <h1> <%= @individual.title %> </h1>
+<p>Group: <%= @groupName %> </p> <br>
 <p>Location: <%= @individual.location %> </p> <br>
-<p>Description: <%= @individual.description %> </p> <br>
+<p>Description: <%= @individual.description %> </p>
 
-<div id='individualEventCal'></div>
+<div>
+<div class='calendar' id='individualEventCal'></div>
+</div>
+
+
+<button type='button' id='userAvailButton'>Submit Availability</button>

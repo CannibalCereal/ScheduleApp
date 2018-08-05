@@ -18,6 +18,7 @@
 //= require activestorage
 //= require_tree .
 
+//Homepage calendar display
 $(document).ready(function() {
   $('#homepageCalendar').fullCalendar({
     header: {
@@ -30,9 +31,9 @@ $(document).ready(function() {
 });
 });
 
+//On creating a new event, posts the calendar's entries as the host's availabilities
 $(function() {
   $('#eventCreateForm').submit(function (event) {
-    console.log("FORM SUBMITTED");
     let a = [];
     $("#createEventCalendar").fullCalendar('getEventSources').forEach(function(e) {
       let res = new Object();
@@ -52,6 +53,7 @@ $(function() {
   });
 });
 
+//Event Creation calendar display
 $(function() {
   $('#createEventCalendar').fullCalendar({
     header: { left: 'prev,today,next',
@@ -130,27 +132,33 @@ $(function() {
 
 //Invidivual Event Page's Calendar
 $(function () {
-  $(function() {
-    $('#individualEventCal').fullCalendar({
-      header: { left: 'prev,today,next',
-      center: 'title',
-      right: 'agendaWeek,month' },
+  $('#individualEventCal').fullCalendar({
+    header: { left: 'prev,today,next',
+    center: 'title',
+    right: 'agendaWeek,month' },
     contentHeight:600,
     eventColor: '#624763',
     handleWindowResize: true,
     defaultView: 'agendaWeek',
     eventDurationEditable: true,
     selectable: true,
-    selectOverlap: false,
+    selectOverlap: function(event) {
+      return event.rendering === 'background';
+    },
     select: function (start, end, jsEvent, view) {
-      $("#individualEventCal").fullCalendar('addEventSource', [{
-        start: start,
-        end: end,
-      }, ]);
+      if(isValidEvent(start, end)) {
+        $("#individualEventCal").fullCalendar('addEventSource', [{
+          start: start,
+          end: end,
+        }, ]);
+      }
       $("#individualEventCal").fullCalendar("unselect");
     },
     eventMouseover:function(event,domEvent,view){
       var el=$(this);
+      if(event.rendering === 'background') {
+        return;
+      }
       var layer='<div id="events-layer" class="fc-transparent"><span id="delbut'+event.id+'" style="width:10%;" class="btn btn-default trash btn-xs">X</span></div>';
       el.append(layer);
       el.find(".fc-bg").css("pointer-events","none");
@@ -160,6 +168,57 @@ $(function () {
       });
     },
     eventMouseout:function(event){ $("#events-layer").remove(); },
+  });
+});
+
+$(function() {
+  $('#userAvailButton').click(function(e) {
+    let a = [];
+    $("#individualEventCal").fullCalendar('getEventSources').forEach(function(e) {
+      let res = new Object();
+      res.start = e.eventDefs[0].dateProfile.start.format();
+      res.end = e.eventDefs[0].dateProfile.end.format();
+      a.push(res);
+    });
+    if(a.length === 0) {
+      alert("You must provide availabilities for your guests.\n Please try again.");
+      return false;
+    }
+    $.ajax({
+      type: 'POST',
+      url: '/userAvail',
+      data: {'avails': JSON.stringify(a)}
     });
   });
 });
+
+$(function() {
+  if(!$('#individualEventCal').length > 0) {
+    console.log("No individual");
+    return;
+  }
+  $.ajax({
+    type: 'GET',
+    url: '/hostAvails',
+    dataType: "json",
+    success: function(data) {
+      data.forEach(function(e) {
+        let newEvent = {
+          title: e.id.toString(),
+          start: e.start,
+          end: e.end,
+          rendering: 'background'
+        };
+        $('#individualEventCal').fullCalendar('renderEvent', newEvent);
+      });
+    }
+  });
+});
+
+var isValidEvent = function(start,end) {
+    return $("#individualEventCal").fullCalendar('clientEvents', function (event) {
+        return (event.rendering === "background" && //Add more conditions here if you only want to check against certain events
+                (start.isAfter(event.start) || start.isSame(event.start,'minute')) &&
+                (end.isBefore(event.end) || end.isSame(event.end,'minute')) );
+    }).length > 0;
+};

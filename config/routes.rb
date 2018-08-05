@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#new'
   delete 'logout' => 'sessions#destroy'
   post '/eventcal' => 'events#cal'
+  post '/userAvail' => 'events#userAvail'
+  get '/hostAvails' => 'events#hostAvails'
   post '/group/new_member' => 'pages#addmember'
   resources 'groups'
   resources 'events'
