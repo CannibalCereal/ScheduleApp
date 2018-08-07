@@ -133,9 +133,10 @@ $(function() {
 //Invidivual Event Page's Calendar
 $(function () {
   $('#individualEventCal').fullCalendar({
-    header: { left: 'prev,today,next',
+    header: { left: 'prev,next',
     center: 'title',
-    right: 'agendaWeek,month' },
+    right: 'agendaWeek,listMonth' },
+    defaultView: 'listMonth',
     contentHeight:600,
     eventColor: '#624763',
     handleWindowResize: true,
@@ -181,7 +182,7 @@ $(function() {
       a.push(res);
     });
     if(a.length === 0) {
-      alert("You must provide availabilities for your guests.\n Please try again.");
+      alert("You must provide availabilities for this event.\n Please try again.");
       return false;
     }
     $.ajax({
@@ -194,7 +195,6 @@ $(function() {
 
 $(function() {
   if(!$('#individualEventCal').length > 0) {
-    console.log("No individual");
     return;
   }
   $.ajax({
@@ -202,6 +202,8 @@ $(function() {
     url: '/hostAvails',
     dataType: "json",
     success: function(data) {
+      let arr = [];
+      let earliest = moment().add(1, 'y');
       data.forEach(function(e) {
         let newEvent = {
           title: e.id.toString(),
@@ -209,8 +211,12 @@ $(function() {
           end: e.end,
           rendering: 'background'
         };
-        $('#individualEventCal').fullCalendar('renderEvent', newEvent);
+        console.log(newEvent);
+        arr.push(newEvent);
+        earliest = moment.min(earliest, moment(newEvent.start));
       });
+      $('#individualEventCal').fullCalendar('renderEvents', arr, true);
+      $('#individualEventCal').fullCalendar('gotoDate', earliest);
     }
   });
 });
