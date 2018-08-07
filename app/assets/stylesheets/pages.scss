@@ -13,15 +13,31 @@ h2 {
   color: $color-highlight;
   font-family: 'Playfair Display', serif;
 }
+.group-body{
+  // background-image: url('https://i.pinimg.com/originals/e4/28/46/e42846872bd92ee0f1ec8ecc64a18bd3.jpg');
+  // width:100%;
+  // height: 500px;
+  // background-repeat:no-repeat;
+  // background-size:contain;
 
-.calendar {
-  width: 80%;
-  margin: 0 auto;
+  margin-top: 0;
 }
+.main-container{
+  background: rgb(254,123,163);
+  background: linear-gradient(90deg, rgba(254,123,163,1) 0%, rgba(252,207,166,1) 100%);
+  height: 35rem;
+  width: 94%;
+  position: absolute;
+  top: 15%;
+  left: 3%;
+  border-radius: 8px;
+  // border-style: solid;
+  // border-color: white;
 
+}
 .sidebyside {
   display: table;
-  margin: 3%;
+  margin: 1.5% auto;
   width: 90%;
   height: 90%;
 
@@ -40,25 +56,32 @@ h2 {
   .right70 {
     display: table-cell;
     width: 70%;
+    .calendar {
+      width: 80%;
+    }
   }
   .vert {
     vertical-align: middle;
   }
   .card {
-    margin-left: 20%;
     display: table-cell;
-    width: 30%;
-    height: 70%;
+    width: 40%;
+    height: 90%;
     display:none;
     position: absolute;
     overflow-y: scroll;
-    border-width: thick;
+    border-width: medium;
+    margin-left: 10%;
   }
 }
 .group-list {
   .btn {
     width: 100%;
   }
+  padding-top: 0;
+}
+.grouplist {
+  margin-left: 10%;
 }
 .card {
   p {
@@ -72,9 +95,21 @@ h2 {
 }
 .aGroup {
   margin-bottom: 2%;
+  color: $color-text;
 }
-.aGroup.btn-primary {
-  background-color: $color-highlight;
+.aGroup.btn-primary
+  {
+    background-color: $color-background;
+  }
+.aGroup.btn-primary:hover, .aGroup.btn-primary:focus, .aGroup.btn-primary:active, .aGroup.btn-primary.active, .open>.dropdown-toggle.aGroup.btn-primary,  {
+      color: $color-text !important;
+      background-color: $color-highlight !important;
+      border-color:	$color-background !important; /*set the color you want here*/
+}
+.createTribe.btn-primary:hover, .createTribe.btn-primary:focus, .createTribe.btn-primary:active, .createTribe.btn-primary.active, .open>.dropdown-toggle.createTribe.btn-primary,  {
+      color: $color-text !important;
+      background-color: $color-highlight !important;
+      border-color:	$color-background !important; /*set the color you want here*/
 }
 //.invite-btn {
   //display:none;
