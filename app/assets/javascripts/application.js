@@ -133,16 +133,51 @@ $(function() {
 //Invidivual Event Page's Calendar
 $(function () {
   $('#individualEventCal').fullCalendar({
-    header: { left: 'prev,next',
+    header: {
+    left: '',
     center: 'title',
-    right: 'agendaWeek,listMonth' },
-    defaultView: 'listMonth',
+    right: 'prev,next',
+    },
+    defaultView: 'agendaWeek',
     contentHeight:600,
     eventColor: '#624763',
     handleWindowResize: true,
     defaultView: 'agendaWeek',
     eventDurationEditable: true,
     selectable: true,
+    eventResize: function(event, delta, revertFunc) {
+      if (!isValidEvent(event.start, event.end)){
+        revertFunc();
+      };
+    },
+    events: function( start, end, timezone, callback) {
+      let arr = [];
+      $.ajax({
+        type: 'GET',
+        url: '/hostAvails',
+        dataType: "json",
+        success: function(data) {
+          let earliest = moment().add(1, 'y');
+          data.forEach(function(e) {
+            let newEvent = {
+              title: e.id.toString(),
+              start: e.start,
+              end: e.end,
+              rendering: 'background'
+            };
+
+            console.log(newEvent);
+            arr.push(newEvent);
+
+            earliest = moment.min(earliest, moment(newEvent.start));
+          });
+          // $('#individualEventCal').fullCalendar('gotoDate', earliest);
+          callback(arr);
+        }
+      });
+    },
+
+
     selectOverlap: function(event) {
       return event.rendering === 'background';
     },
@@ -193,34 +228,11 @@ $(function() {
   });
 });
 
-$(function() {
-  if(!$('#individualEventCal').length > 0) {
-    return;
-  }
-  $.ajax({
-    type: 'GET',
-    url: '/hostAvails',
-    dataType: "json",
-    success: function(data) {
-      let arr = [];
-      let earliest = moment().add(1, 'y');
-      data.forEach(function(e) {
-        let newEvent = {
-          title: e.id.toString(),
-          start: e.start,
-          end: e.end,
-          rendering: 'background'
-        };
-        console.log(newEvent);
-        arr.push(newEvent);
-        earliest = moment.min(earliest, moment(newEvent.start));
-      });
-      $('#individualEventCal').fullCalendar('renderEvents', arr, true);
-      $('#individualEventCal').fullCalendar('gotoDate', earliest);
-    }
-  });
-});
+$(document).on("click", '.aHostAvail', function(e){
+  availDate = $(e.target).attr('id');
+  $('#individualEventCal').fullCalendar('gotoDate', availDate);
 
+});
 var isValidEvent = function(start,end) {
     return $("#individualEventCal").fullCalendar('clientEvents', function (event) {
         return (event.rendering === "background" && //Add more conditions here if you only want to check against certain events

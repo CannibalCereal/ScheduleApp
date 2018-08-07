@@ -1,11 +1,18 @@
-
 <h1> <%= @individual.title %> </h1>
-<p>Group: <%= @groupName %> </p> <br>
-<p>Location: <%= @individual.location %> </p> <br>
-<p>Description: <%= @individual.description %> </p>
+<div class = "sidebyside">
+<div class = 'left30'>
+  <p>Group: <%= @groupName %> </p>
+  <p>Location: <%= @individual.location %> </p>
+  <p>Description: <%= @individual.description %> </p><br>
 
-<div>
-<div class='calendar' id='individualEventCal'></div>
+  <div class = "hostAvailList">
+    <% @hostAvails.each do |event| %>
+      <% eventDate = event.start.split('T')[0] %>
+      <p class = "aHostAvail" id = "<%= eventDate %>">Event start: <%= event.start.split('T')%> <br> Event end: <%= event.end.split('T') %></p>
+    <% end %>
+  </div>
+</div>
+<div class='calendar right70' id='individualEventCal'></div>
 </div>
 
 
