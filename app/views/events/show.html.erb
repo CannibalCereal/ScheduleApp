@@ -1,6 +1,7 @@
 <h1> <%= @individual.title %> </h1>
 <div class = "sidebyside">
 <div class = 'left30'>
+  <p>Host: <%= @hostName %> </p>
   <p>Group: <%= @groupName %> </p>
   <p>Location: <%= @individual.location %> </p>
   <p>Description: <%= @individual.description %> </p><br>
@@ -15,5 +16,10 @@
 <div class='calendar right70' id='individualEventCal'></div>
 </div>
 
-
-<button type='button' id='userAvailButton'>Submit Availability</button>
+<% if current_user.name != @hostName %>
+  <button class='btn btn-primary' type='button' id='userAvailButton'>Submit Availability</button>
+  <%= button_to "I'm not going!", { :action => "deleteAvails"}, :method => :delete  %>
+<% else %>
+  <button class='btn btn-primary' type='button' id='hostFinalizeButton'>Finalize Event</button>
+  <button class='btn btn-primary' type='button' id='hostDeleteEvent'>Delete Event</button>
+<% end %>

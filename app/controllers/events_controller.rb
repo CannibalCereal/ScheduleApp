@@ -9,9 +9,8 @@ class EventsController < ApplicationController
     session[:currEventID] = @individual.id
 
     hostID = Event.find_by_id(session[:currEventID]).host_id
+    @hostName = User.find_by_id(hostID).name
     @hostAvails = Availability.where('event_id = ? AND user_id = ?', session[:currEventID], hostID)
-
-
   end
 
   def cal
@@ -19,16 +18,30 @@ class EventsController < ApplicationController
   end
 
   def userAvail
+    Availability.where('event_id = ? AND user_id = ?', session[:currEventID], current_user.id).destroy_all
     Availability.addAvails(current_user.id, session[:currEventID], params[:avails])
+    redirect_to '/eventpage'
   end
 
-  def hostAvails
+  def getAvails
     hostID = Event.find_by_id(session[:currEventID]).host_id
-    hostAvails = Availability.where('event_id = ? AND user_id = ?', session[:currEventID], hostID)
+    currHost = current_user.id == hostID
+    oldAvails = []
+    avails = []
+    if currHost
+      avails = Availability.where('event_id = ?', session[:currEventID])
+    else
+      oldAvails = Availability.where('event_id = ? AND user_id = ?', session[:currEventID], current_user.id)
+      avails = Availability.where('event_id = ? AND user_id = ?', session[:currEventID], hostID)
+    end
     respond_to do |format|
       format.html
-      format.json { render json: hostAvails }
+      format.json { render :json => { :avails => avails, :oldAvails => oldAvails } }
     end
+  end
+
+  def deleteAvails
+    Availability.where('event_id = ? AND user_id = ?', session[:currEventID], current_user.id).destroy_all
   end
 
   def create

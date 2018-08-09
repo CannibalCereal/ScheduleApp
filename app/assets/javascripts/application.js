@@ -154,11 +154,10 @@ $(function () {
       let arr = [];
       $.ajax({
         type: 'GET',
-        url: '/hostAvails',
+        url: '/getAvails',
         dataType: "json",
         success: function(data) {
-          let earliest = moment().add(1, 'y');
-          data.forEach(function(e) {
+          data.avails.forEach(function(e) {
             let newEvent = {
               title: e.id.toString(),
               start: e.start,
@@ -166,9 +165,15 @@ $(function () {
               rendering: 'background'
             };
             arr.push(newEvent);
-            earliest = moment.min(earliest, moment(newEvent.start));
           });
-          // $('#individualEventCal').fullCalendar('gotoDate', earliest);
+          data.oldAvails.forEach(function(e) {
+            let oldEvent = {
+              title: e.id.toString(),
+              start: e.start,
+              end: e.end
+            };
+            arr.push(oldEvent);
+          });
           callback(arr);
         }
       });
@@ -211,7 +216,6 @@ $(function() {
       if (e.rendering === 'background') {
         return;
       }
-      console.log (e.start.format());
       let res = new Object();
       res.start = e.start.format();
       res.end = e.end.format();
