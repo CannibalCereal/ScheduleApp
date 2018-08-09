@@ -6,10 +6,12 @@ class EventsController < ApplicationController
   def show
     @individual = Event.find(params[:id])
     @groupName = Group.find_by_id(@individual.group_id).name
+    session[:currEventID] = @individual.id
+
     hostID = Event.find_by_id(session[:currEventID]).host_id
     @hostAvails = Availability.where('event_id = ? AND user_id = ?', session[:currEventID], hostID)
 
-    session[:currEventID] = @individual.id
+
   end
 
   def cal

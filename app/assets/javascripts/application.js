@@ -35,10 +35,10 @@ $(document).ready(function() {
 $(function() {
   $('#eventCreateForm').submit(function (event) {
     let a = [];
-    $("#createEventCalendar").fullCalendar('getEventSources').forEach(function(e) {
+    $("#createEventCalendar").fullCalendar('clientEvents').forEach(function(e) {
       let res = new Object();
-      res.start = e.eventDefs[0].dateProfile.start.format();
-      res.end = e.eventDefs[0].dateProfile.end.format();
+      res.start = e.start.format();
+      res.end = e.end.format();
       a.push(res);
     });
     if(a.length === 0) {
@@ -165,10 +165,7 @@ $(function () {
               end: e.end,
               rendering: 'background'
             };
-
-            console.log(newEvent);
             arr.push(newEvent);
-
             earliest = moment.min(earliest, moment(newEvent.start));
           });
           // $('#individualEventCal').fullCalendar('gotoDate', earliest);
@@ -210,10 +207,14 @@ $(function () {
 $(function() {
   $('#userAvailButton').click(function(e) {
     let a = [];
-    $("#individualEventCal").fullCalendar('getEventSources').forEach(function(e) {
+    $("#individualEventCal").fullCalendar('clientEvents').forEach(function(e) {
+      if (e.rendering === 'background') {
+        return;
+      }
+      console.log (e.start.format());
       let res = new Object();
-      res.start = e.eventDefs[0].dateProfile.start.format();
-      res.end = e.eventDefs[0].dateProfile.end.format();
+      res.start = e.start.format();
+      res.end = e.end.format();
       a.push(res);
     });
     if(a.length === 0) {
