@@ -2,7 +2,7 @@
 <div class="display-card" id="pendingEvents">
   <h2> Pending Events </h2>
   <ul>
-    <% @allMyEvents.each do |event| %>
+    <% @pendingEvents.each do |event| %>
       <li><%= link_to event.title, individualEvent_path(event) %></li>
     <% end %>
   </ul>
@@ -10,5 +10,10 @@
 
 <div class="display-card" id="finalEvents">
   <h2> Finalized Events </h2>
+  <ul>
+    <% @finalEvents.each do |event| %>
+      <li><%= link_to event.title, individualEvent_path(event) %></li>
+    <% end %>
+  </ul>
 </div>
 <%= button_to "Create Event", '/createevent', method: 'get' %>

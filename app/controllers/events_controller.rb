@@ -44,6 +44,20 @@ class EventsController < ApplicationController
     Availability.where('event_id = ? AND user_id = ?', session[:currEventID], current_user.id).destroy_all
   end
 
+  def deleteEvent
+    Availability.where('event_id = ?', session[:currEventID]).destroy_all
+    Event.find_by_id(session[:currEventID]).destroy
+    session[:currEventID] = ''
+    redirect_to '/eventpage'
+  end
+
+  def finalize
+    FinalEvent.finalizeEvent(session[:currEventID], params[:time])
+    Event.find_by_id(session[:currEventID]).update(isFinal: true)
+    Availability.where('event_id = ?', session[:currEventID]).destroy_all
+    session[:currEventID] = ''
+  end
+
   def create
     @event = Event.new(event_params)
     if @event.save
@@ -60,6 +74,6 @@ class EventsController < ApplicationController
   private
   def event_params
     params.permit(:arr)
-    params.require(:event).permit(:group_id, :title, :host_id, :location, :description)
+    params.require(:event).permit(:group_id, :title, :host_id, :location, :description, :isFinal)
   end
 end

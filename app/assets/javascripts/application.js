@@ -146,7 +146,7 @@ $(function () {
     eventDurationEditable: true,
     selectable: true,
     eventResize: function(event, delta, revertFunc) {
-      if (!isValidEvent(event.start, event.end)){
+      if (!isValidEvent('#individualEventCal', event.start, event.end)){
         revertFunc();
       };
     },
@@ -184,7 +184,7 @@ $(function () {
       return event.rendering === 'background';
     },
     select: function (start, end, jsEvent, view) {
-      if(isValidEvent(start, end)) {
+      if(isValidEvent('#individualEventCal', start, end)) {
         $("#individualEventCal").fullCalendar('addEventSource', [{
           start: start,
           end: end,
@@ -209,6 +209,75 @@ $(function () {
   });
 });
 
+$(function () {
+  $('#hostViewCal').fullCalendar({
+    header: {
+    left: 'agendaWeek,month',
+    center: 'title',
+    right: 'prev,next',
+    },
+    contentHeight:600,
+    eventColor: '#624763',
+    handleWindowResize: true,
+    defaultView: 'agendaWeek',
+    selectable: true,
+    events: function( start, end, timezone, callback) {
+      let arr = [];
+      let earliest = moment().add(100, 'y');
+      $.ajax({
+        type: 'GET',
+        url: '/getAvails',
+        dataType: "json",
+        success: function(data) {
+          data.avails.forEach(function(e) {
+            let newEvent = {
+              title: e.id.toString(),
+              start: e.start,
+              end: e.end,
+              rendering: 'background'
+            };
+            arr.push(newEvent);
+            earliest = moment.min(earliest, moment(newEvent.start));
+          });
+          callback(arr);
+        //  $('#hostViewCal').fullCalendar('gotoDate', earliest);
+        }
+      });
+    },
+    selectOverlap: function(event) {
+      return event.rendering === 'background';
+    },
+    select: function (start, end, jsEvent, view) {
+      if(isValidEvent('#hostViewCal', start, end)) {
+        $('#hostViewCal').fullCalendar('removeEvents', function(e) {
+          return e.rendering !== 'background';
+        });
+        $("#hostViewCal").fullCalendar('addEventSource', [{
+          start: start,
+          end: end,
+        }, ]);
+      }
+      $("#hostViewCal").fullCalendar("unselect");
+    },
+    eventMouseover:function(event,domEvent,view){
+      var el=$(this);
+      if(event.rendering === 'background') {
+        return;
+      }
+      var layer='<div id="events-layer" class="fc-transparent"><span id="delbut'+event.id+'" style="width:10%;" class="btn btn-default trash btn-xs">X</span></div>';
+      el.append(layer);
+      el.find(".fc-bg").css("pointer-events","none");
+
+      $("#delbut"+event.id).click(function(){
+        $('#hostViewCal').fullCalendar('removeEvents', event._id);
+      });
+    },
+    eventMouseout:function(event){ $("#events-layer").remove(); },
+  });
+});
+
+
+//Click handler for user availability submit button
 $(function() {
   $('#userAvailButton').click(function(e) {
     let a = [];
@@ -231,15 +300,32 @@ $(function() {
       data: {'avails': JSON.stringify(a)}
     });
   });
+
+  $('#hostFinalizeButton').click(function(click) {
+    let a = $("#hostViewCal").fullCalendar('clientEvents').filter(function(e) {
+      return e.rendering !== 'background';
+    });
+    if(a.length !== 1) {
+      alert("You must select a time to finalize this event.\n Please try again.");
+      return false;
+    }
+    let startTime = a[0].start.format();
+    $.ajax({
+      type: 'POST',
+      url: '/hostFinal',
+      data: {'time': startTime}
+    });
+  });
 });
+
 
 $(document).on("click", '.aHostAvail', function(e){
   availDate = $(e.target).attr('id');
   $('#individualEventCal').fullCalendar('gotoDate', availDate);
 
 });
-var isValidEvent = function(start,end) {
-    return $("#individualEventCal").fullCalendar('clientEvents', function (event) {
+var isValidEvent = function(cal, start,end) {
+    return $(cal).fullCalendar('clientEvents', function (event) {
         return (event.rendering === "background" && //Add more conditions here if you only want to check against certain events
                 (start.isAfter(event.start) || start.isSame(event.start,'minute')) &&
                 (end.isBefore(event.end) || end.isSame(event.end,'minute')) );

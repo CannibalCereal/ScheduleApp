@@ -1,25 +1,32 @@
 <h1> <%= @individual.title %> </h1>
+
 <div class = "sidebyside">
-<div class = 'left30'>
-  <p>Host: <%= @hostName %> </p>
-  <p>Group: <%= @groupName %> </p>
-  <p>Location: <%= @individual.location %> </p>
-  <p>Description: <%= @individual.description %> </p><br>
+  <div class = 'left30'>
+    <p>Host: <%= @hostName %> </p>
+    <p>Group: <%= @groupName %> </p>
+    <p>Location: <%= @individual.location %> </p>
+    <p>Description: <%= @individual.description %> </p><br>
 
-  <div class = "hostAvailList">
-    <% @hostAvails.each do |event| %>
-      <% eventDate = event.start.split('T')[0] %>
-      <p class = "aHostAvail" id = "<%= eventDate %>">Event start: <%= event.start.split('T')%> <br> Event end: <%= event.end.split('T') %></p>
-    <% end %>
+    <div class = "hostAvailList">
+      <% @hostAvails.each do |event| %>
+        <% eventDate = event.start.split('T')[0] %>
+        <p class = "aHostAvail" id = "<%= eventDate %>">Event start: <%= event.start.split('T')%> <br> Event end: <%= event.end.split('T') %></p>
+      <% end %>
+    </div>
   </div>
-</div>
-<div class='calendar right70' id='individualEventCal'></div>
-</div>
 
-<% if current_user.name != @hostName %>
-  <button class='btn btn-primary' type='button' id='userAvailButton'>Submit Availability</button>
-  <%= button_to "I'm not going!", { :action => "deleteAvails"}, :method => :delete  %>
-<% else %>
-  <button class='btn btn-primary' type='button' id='hostFinalizeButton'>Finalize Event</button>
-  <button class='btn btn-primary' type='button' id='hostDeleteEvent'>Delete Event</button>
-<% end %>
+  <% if current_user.name != @hostName %>
+
+    <div class='calendar right70' id='individualEventCal'></div>
+
+    <button class='btn btn-primary' type='button' id='userAvailButton'>Submit Availability</button>
+    <%= button_to "I'm not going!", { :action => "deleteAvails"}, :class => 'btn btn-primary', :method => :delete  %>
+  <% else %>
+
+    <div class='calendar right70' id='hostViewCal'></div>
+
+    <a href='/eventpage'><button class='btn btn-primary' type='button' id='hostFinalizeButton'>Finalize Event</button></a>
+    <%= button_to "Delete Event", { :action => "deleteEvent"}, :class => 'btn btn-primary', :method => :delete  %>
+  <% end %>
+
+</div>

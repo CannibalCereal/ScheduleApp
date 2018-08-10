@@ -16,6 +16,7 @@
     <%= e.label :description %> <br>
     <%= e.text_area :description %> <br>
 
+    <%= e.hidden_field :isFinal, :value => false %>
     <%= e.submit "Create Event" %>
     <% end %>
   </div>

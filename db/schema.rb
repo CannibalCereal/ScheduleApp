@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_24_211509) do
+ActiveRecord::Schema.define(version: 2018_08_10_001030) do
 
   create_table "availabilities", force: :cascade do |t|
     t.integer "user_id"
@@ -27,8 +27,14 @@ ActiveRecord::Schema.define(version: 2018_07_24_211509) do
     t.integer "group_id"
     t.string "location"
     t.string "description"
+    t.boolean "isFinal"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "final_events", force: :cascade do |t|
+    t.integer "event_id"
+    t.string "start"
   end
 
   create_table "groups", force: :cascade do |t|

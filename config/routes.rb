@@ -17,8 +17,10 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
   post '/eventcal' => 'events#cal'
   post '/userAvail' => 'events#userAvail'
+  post '/hostFinal' => 'events#finalize'
   get '/getAvails' => 'events#getAvails'
   delete '/deleteAvails' => 'events#deleteAvails', as: :deleteAvails
+  delete '/deleteEvent' => 'events#deleteEvent'
   post '/group/new_member' => 'pages#addmember'
   resources 'groups'
   resources 'events'

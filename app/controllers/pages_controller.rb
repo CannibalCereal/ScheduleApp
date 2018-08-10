@@ -12,13 +12,14 @@ class PagesController < ApplicationController
       # GET ALL YOUR GROUPS
       myGroups = User.find_by_id(current_user.id).groups
       # FOR EACH OF YOUR GROUPS, LIST ALL EVENTS
-      @allMyEvents = []
+      allMyEvents = []
       myGroups.each do |g|
         events = Event.where("group_id = ?", g.id)
         events.each do |e|
-          @allMyEvents << e
+          allMyEvents << e
         end
       end
+      @finalEvents, @pendingEvents = allMyEvents.partition {|e| e.isFinal}
   end
 
   def grouppage
