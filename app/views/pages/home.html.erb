@@ -5,7 +5,7 @@
     <ul>
       <li id='homeGroupAll' class='homeGroups'>All Groups</li>
       <% for i in 0..(@groups.length-1) %>
-        <li id = "homeGroup<%=(i+1).to_s%>" class = "homeGroups"><%= @groups[i].name %></li>
+        <li id = "homeGroup<%=@groups[i].id.to_s%>" class = "homeGroups"><%= @groups[i].name %></li>
       <% end %>
     </ul>
   </div>

@@ -22,13 +22,66 @@
 $(document).ready(function() {
   $('#homepageCalendar').fullCalendar({
     header: {
-      left: 'prev,today,next',
+      left: 'month',
       center: 'title',
-      right: 'agendaWeek,month'
+      right: 'prev,today,next'
     },
-  editable: false, // Don't allow editing of events
-  handleWindowResize: true
+    editable: false, // Don't allow editing of events
+    handleWindowResize: true,
+    defaultView: 'month',
+    events: function(start, end, timezone, callback) {
+      let arr = [];
+      $.ajax({
+        type: 'GET',
+        url: '/getHomepage',
+        dataType: "json",
+        success: function(data) {
+          data.forEach(function(x) {
+            x.events.forEach(function(y) {
+              let newEvent = {
+                title: y.title,
+                start: y.start
+              };
+              arr.push(newEvent);
+            });
+          });
+          callback(arr);
+        }
+      });
+    },
+    dayClick: function(date, jsEvent, view) {
+          if(view.name !== 'month') {
+            return;
+          }
+          $('#homepageCalendar').fullCalendar('changeView', 'agendaWeek');
+          $('#homepageCalendar').fullCalendar('gotoDate', date);
+        },
+  });
 });
+
+$(document).on('click', '.homeGroups', function(e) {
+  let targetID = $(e.target).attr('id').split('homeGroup')[1];
+  let arr = [];
+  $.ajax({
+    type: 'GET',
+    url: '/getHomepage',
+    dataType: "json",
+    success: function(data) {
+      data.forEach(function(i) {
+        if(targetID === 'All' || targetID === i.id.toString()) {
+          i.events.forEach(function(j) {
+            let newEvent = {
+              title: j.title,
+              start: j.start
+            };
+            arr.push(newEvent);
+          });
+        }
+      });
+      $('#homepageCalendar').fullCalendar('removeEvents');
+      $('#homepageCalendar').fullCalendar('renderEvents', arr);
+    }
+  });
 });
 
 //On creating a new event, posts the calendar's entries as the host's availabilities
@@ -87,11 +140,6 @@ $(function() {
   });
 });
 
-//TODO when finalized events happen, display all finalized events for the groups selected.
-$(document).on('click', '.homeGroups', function() {
-  var clickedID = $(this).attr('id');
-});
-
 //GROUP PAGE FUNCTIONALITY: Display group card when group name is clicked. Don't show multiple cards, stupidass
 $(document).on('click','.aGroup', function(e){
   let groupID = $(e.target).attr('id').split('-')[1];
@@ -134,7 +182,7 @@ $(function() {
 $(function () {
   $('#individualEventCal').fullCalendar({
     header: {
-    left: 'agendaWeek, month',
+    left: 'month',
     center: 'title',
     right: 'prev,next',
     },
@@ -147,7 +195,14 @@ $(function () {
     events: [],
     viewRender: function (view, element) {
       $('#individualEventCal').fullCalendar('removeEvents');
-      eventCal();
+      eventCal('#individualEventCal', view.name);
+    },
+    dayClick: function(date, jsEvent, view) {
+      if(view.name !== 'month') {
+        return;
+      }
+      $('#individualEventCal').fullCalendar('changeView', 'agendaWeek');
+      $('#individualEventCal').fullCalendar('gotoDate', date);
     },
     eventResize: function(event, delta, revertFunc) {
       if (!isValidEvent('#individualEventCal', event.start, event.end)){
@@ -184,15 +239,13 @@ $(function () {
 });
 
 
-var eventCal = function(){
-  if (!$('#individualEventCal').length) {
+var eventCal = function(cal, view){
+  if (!$(cal).length) {
     return;
   }
-  console.log ($('#individualEventCal').fullCalendar('getView').name);
-  let isMonth = $('#individualEventCal').fullCalendar('getView').name === 'month';
   let arr = [];
 
-  if (isMonth) {
+  if (view === 'month') {
     $.ajax({
       type: 'GET',
       url: '/getAvails',
@@ -218,7 +271,7 @@ var eventCal = function(){
           arr.push(oldEvent);
         });
         // arr.forEach(x => $('#individualEventCal').fullCalendar('renderEvent', x));
-        $('#individualEventCal').fullCalendar('renderEvents', arr);
+        $(cal).fullCalendar('renderEvents', arr);
       }
     });
   }
@@ -246,12 +299,12 @@ var eventCal = function(){
           arr.push(oldEvent);
         });
         // arr.forEach(x => $('#individualEventCal').fullCalendar('renderEvent', x));
-        $('#individualEventCal').fullCalendar('renderEvents', arr);
+        $(cal).fullCalendar('renderEvents', arr);
       }
     });
   }
-  console.log(arr);
 };
+
 var getDay = function(e) {
   return e.split('T')[0];
 }
@@ -259,37 +312,25 @@ var getDay = function(e) {
 $(function () {
   $('#hostViewCal').fullCalendar({
     header: {
-    left: 'agendaWeek,month',
+    left: 'month',
     center: 'title',
     right: 'prev,next',
     },
     contentHeight:600,
     eventColor: '#624763',
     handleWindowResize: true,
-    defaultView: 'agendaWeek',
+    defaultView: 'month',
     selectable: true,
-    events: function( start, end, timezone, callback) {
-      let arr = [];
-      let earliest = moment().add(100, 'y');
-      $.ajax({
-        type: 'GET',
-        url: '/getAvails',
-        dataType: "json",
-        success: function(data) {
-          data.avails.forEach(function(e) {
-            let newEvent = {
-              title: e.id.toString(),
-              start: e.start,
-              end: e.end,
-              rendering: 'background'
-            };
-            arr.push(newEvent);
-            earliest = moment.min(earliest, moment(newEvent.start));
-          });
-          callback(arr);
-        //  $('#hostViewCal').fullCalendar('gotoDate', earliest);
-        }
-      });
+    viewRender: function (view, element) {
+      $('#hostViewCal').fullCalendar('removeEvents');
+      eventCal('#hostViewCal', view.name);
+    },
+    dayClick: function(date, jsEvent, view) {
+      if(view.name !== 'month') {
+        return;
+      }
+      $('#hostViewCal').fullCalendar('changeView', 'agendaWeek');
+      $('#hostViewCal').fullCalendar('gotoDate', date);
     },
     selectOverlap: function(event) {
       return event.rendering === 'background';
@@ -373,7 +414,7 @@ $(document).on("click", '.aHostAvail', function(e){
 });
 var isValidEvent = function(cal, start,end) {
     return $(cal).fullCalendar('clientEvents', function (event) {
-        return (event.rendering === "background" && //Add more conditions here if you only want to check against certain events
+        return (event.rendering === "background" && $(cal).fullCalendar('getView').name !== 'month' &&//Add more conditions here
                 (start.isAfter(event.start) || start.isSame(event.start,'minute')) &&
                 (end.isBefore(event.end) || end.isSame(event.end,'minute')) );
     }).length > 0;

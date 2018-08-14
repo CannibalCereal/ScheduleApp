@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post '/userAvail' => 'events#userAvail'
   post '/hostFinal' => 'events#finalize'
   get '/getAvails' => 'events#getAvails'
+  get '/getHomepage' => 'pages#eventsByGroup'
   delete '/deleteAvails' => 'events#deleteAvails', as: :deleteAvails
   delete '/deleteEvent' => 'events#deleteEvent'
   post '/group/new_member' => 'pages#addmember'

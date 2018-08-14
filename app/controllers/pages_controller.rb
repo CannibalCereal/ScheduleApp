@@ -3,6 +3,25 @@ class PagesController < ApplicationController
   def landing
   end
 
+  def eventsByGroup
+    myGroups = User.find_by_id(current_user.id).groups
+    sendData = []
+    myGroups.each do |g|
+      eventsInGroup = Event.where('group_id = ? AND isFinal = ?', g.id, true)
+      finalTimes = []
+      eventsInGroup.each do |e|
+        finalTime = {'title' => e.title, 'start' => FinalEvent.find_by(event_id: e.id).start}
+        finalTimes << finalTime
+      end
+      temp = {'id' => g.id, 'events' => finalTimes}
+      sendData << temp
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => sendData }
+    end
+  end
+
   def home
     @groups = User.find_by_id(current_user.id).groups
   end
