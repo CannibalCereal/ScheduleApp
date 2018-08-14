@@ -134,52 +134,26 @@ $(function() {
 $(function () {
   $('#individualEventCal').fullCalendar({
     header: {
-    left: '',
+    left: 'agendaWeek, month',
     center: 'title',
     right: 'prev,next',
     },
-    defaultView: 'agendaWeek',
+    defaultView: 'month',
     contentHeight:600,
     eventColor: '#624763',
     handleWindowResize: true,
-    defaultView: 'agendaWeek',
     eventDurationEditable: true,
     selectable: true,
+    events: [],
+    viewRender: function (view, element) {
+      $('#individualEventCal').fullCalendar('removeEvents');
+      eventCal();
+    },
     eventResize: function(event, delta, revertFunc) {
       if (!isValidEvent('#individualEventCal', event.start, event.end)){
         revertFunc();
       };
     },
-    events: function( start, end, timezone, callback) {
-      let arr = [];
-      $.ajax({
-        type: 'GET',
-        url: '/getAvails',
-        dataType: "json",
-        success: function(data) {
-          data.avails.forEach(function(e) {
-            let newEvent = {
-              title: e.id.toString(),
-              start: e.start,
-              end: e.end,
-              rendering: 'background'
-            };
-            arr.push(newEvent);
-          });
-          data.oldAvails.forEach(function(e) {
-            let oldEvent = {
-              title: e.id.toString(),
-              start: e.start,
-              end: e.end
-            };
-            arr.push(oldEvent);
-          });
-          callback(arr);
-        }
-      });
-    },
-
-
     selectOverlap: function(event) {
       return event.rendering === 'background';
     },
@@ -208,6 +182,79 @@ $(function () {
     eventMouseout:function(event){ $("#events-layer").remove(); },
   });
 });
+
+
+var eventCal = function(){
+  if (!$('#individualEventCal').length) {
+    return;
+  }
+  console.log ($('#individualEventCal').fullCalendar('getView').name);
+  let isMonth = $('#individualEventCal').fullCalendar('getView').name === 'month';
+  let arr = [];
+
+  if (isMonth) {
+    $.ajax({
+      type: 'GET',
+      url: '/getAvails',
+      dataType: "json",
+      success: function(data) {
+        data.avails.forEach(function(e) {
+          let newEvent = {
+            title: e.id.toString(),
+            start: getDay(e.start),
+            end: getDay(e.end) === getDay(e.start) ? moment(getDay(e.end)).add(1, 'd').format() : getDay(e.end),
+            rendering: 'background',
+            allDay: true
+          };
+          arr.push(newEvent);
+        });
+        data.oldAvails.forEach(function(e) {
+          let oldEvent = {
+            title: e.id.toString(),
+            start: getDay(e.start),
+            end: getDay(e.end) === getDay(e.start) ? moment(getDay(e.end)).add(1, 'd').format() : getDay(e.end),
+            allDay: true
+          };
+          arr.push(oldEvent);
+        });
+        // arr.forEach(x => $('#individualEventCal').fullCalendar('renderEvent', x));
+        $('#individualEventCal').fullCalendar('renderEvents', arr);
+      }
+    });
+  }
+  else {
+    $.ajax({
+      type: 'GET',
+      url: '/getAvails',
+      dataType: "json",
+      success: function(data) {
+        data.avails.forEach(function(e) {
+          let newEvent = {
+            title: e.id.toString(),
+            start: e.start,
+            end: e.end,
+            rendering: 'background'
+          };
+          arr.push(newEvent);
+        });
+        data.oldAvails.forEach(function(e) {
+          let oldEvent = {
+            title: e.id.toString(),
+            start: e.start,
+            end: e.end
+          };
+          arr.push(oldEvent);
+        });
+        // arr.forEach(x => $('#individualEventCal').fullCalendar('renderEvent', x));
+        $('#individualEventCal').fullCalendar('renderEvents', arr);
+      }
+    });
+  }
+  console.log(arr);
+};
+var getDay = function(e) {
+  return e.split('T')[0];
+}
 
 $(function () {
   $('#hostViewCal').fullCalendar({
