@@ -10,7 +10,7 @@ class PagesController < ApplicationController
       eventsInGroup = Event.where('group_id = ? AND isFinal = ?', g.id, true)
       finalTimes = []
       eventsInGroup.each do |e|
-        finalTime = {'title' => e.title, 'start' => FinalEvent.find_by(event_id: e.id).start}
+        finalTime = {'title' => e.title, 'start' => FinalEvent.find_by(event_id: e.id).start, 'eventid' => e.id}
         finalTimes << finalTime
       end
       temp = {'id' => g.id, 'events' => finalTimes}
@@ -20,6 +20,10 @@ class PagesController < ApplicationController
       format.html
       format.json { render :json => sendData }
     end
+  end
+
+  def goToEvent
+    eventid = Event.find_by()
   end
 
   def home

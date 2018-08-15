@@ -40,7 +40,9 @@ $(document).ready(function() {
             x.events.forEach(function(y) {
               let newEvent = {
                 title: y.title,
-                start: y.start
+                start: y.start,
+                id: y.eventid,
+                url: ('events/final/' + y.eventid)
               };
               arr.push(newEvent);
             });
@@ -50,12 +52,19 @@ $(document).ready(function() {
       });
     },
     dayClick: function(date, jsEvent, view) {
-          if(view.name !== 'month') {
-            return;
-          }
-          $('#homepageCalendar').fullCalendar('changeView', 'agendaWeek');
-          $('#homepageCalendar').fullCalendar('gotoDate', date);
-        },
+      if(view.name !== 'month') {
+        return;
+      }
+      $('#homepageCalendar').fullCalendar('changeView', 'agendaWeek');
+      $('#homepageCalendar').fullCalendar('gotoDate', date);
+    },
+    eventClick: function(event, jsEvent, view) {
+      $.ajax({
+        type: 'POST',
+        url: '/goToEvent',
+        data: {'eventTitle': event.title},
+      });
+    }
   });
 });
 
@@ -72,7 +81,9 @@ $(document).on('click', '.homeGroups', function(e) {
           i.events.forEach(function(j) {
             let newEvent = {
               title: j.title,
-              start: j.start
+              start: j.start,
+              id: j.eventid,
+              url: ('events/final/' + j.eventid)
             };
             arr.push(newEvent);
           });
@@ -110,16 +121,26 @@ $(function() {
 $(function() {
   $('#createEventCalendar').fullCalendar({
     header: { left: 'prev,today,next',
-    center: 'title',
-    right: 'agendaWeek,month' },
+              center: 'title',
+              right: 'month' },
   contentHeight:600,
   eventColor: '#624763',
   handleWindowResize: true,
-  defaultView: 'agendaWeek',
+  defaultView: 'month',
   eventDurationEditable: true,
   selectable: true,
   selectOverlap: false,
+  dayClick: function(date, jsEvent, view) {
+    if(view.name !== 'month') {
+      return;
+    }
+    $('#createEventCalendar').fullCalendar('changeView', 'agendaWeek');
+    $('#createEventCalendar').fullCalendar('gotoDate', date);
+  },
   select: function (start, end, jsEvent, view) {
+    if(view.name === 'month') {
+      return;
+    }
     $("#createEventCalendar").fullCalendar('addEventSource', [{
       start: start,
       end: end,
