@@ -61,9 +61,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      Group.find_by_id(@event.group_id).users.each do |u|
-        InviteMailer.sendPendingEvent(@event, u.email).deliver
-      end
+      EmailBlastJob.perform_later(@event)
       Availability.createAvailsHeldData(current_user.id, @event.id)
       redirect_to '/eventpage'
     else
