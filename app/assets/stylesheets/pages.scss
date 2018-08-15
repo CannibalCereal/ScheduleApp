@@ -8,7 +8,17 @@ h1 {
   color: $color-main;
   font-family: 'Playfair Display', serif;
 }
-
+.jumbotron {
+  .display-4 {
+    color: $color-highlight;
+  }
+  p {
+    color:$color-background;
+  }
+  .highlight {
+    color:$color-text;
+  }
+}
 h2 {
   color: $color-highlight;
   font-family: 'Playfair Display', serif;
@@ -107,6 +117,23 @@ h2 {
       border-color:	$color-background !important; /*set the color you want here*/
 }
 .createTribe.btn-primary:hover, .createTribe.btn-primary:focus, .createTribe.btn-primary:active, .createTribe.btn-primary.active, .open>.dropdown-toggle.createTribe.btn-primary,  {
+      color: $color-text !important;
+      background-color: $color-highlight !important;
+      border-color:	$color-background !important; /*set the color you want here*/
+}
+.finalEvent {
+  background: rgb(254,123,163);
+  background: linear-gradient(90deg, rgba(254,123,163,1) 0%, rgba(252,207,166,1) 100%);
+}
+
+.aMap {
+  color: $color-text;
+}
+.aMap.btn-primary
+  {
+    background-color: $color-background;
+  }
+.aMap.btn-primary:hover, .aMap.btn-primary:focus, .aMap.btn-primary:active, .aMap.btn-primary.active, .open>.dropdown-toggle.aMap.btn-primary,  {
       color: $color-text !important;
       background-color: $color-highlight !important;
       border-color:	$color-background !important; /*set the color you want here*/

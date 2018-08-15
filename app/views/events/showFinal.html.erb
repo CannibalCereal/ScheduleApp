@@ -1,0 +1,10 @@
+<br><br><br>
+<div class="jumbotron finalEvent">
+  <h1 class="display-4"><%= @groupName %> </h1>
+  <p class="lead">The chieftain of this event is: <span class ="highlight"> <%= @hostName %></span> </p>
+  <p class ="lead"> Meeting time: <span class = "highlight"><%= @start[0]%> at <%= @start[1] %></span> </p>
+  <hr class="my-4">
+  <p>Location:<%= @individual.location %>  </p>
+  <p class="lead"> <a class="aMap btn btn-primary" href="#" role="button">Click to see map</a></p>
+  <p>Description: <%= @individual.description %> </p>
+</div>

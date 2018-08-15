@@ -12,7 +12,7 @@
   <h2> Finalized Events </h2>
   <ul>
     <% @finalEvents.each do |event| %>
-      <li><%= link_to event.title, individualEvent_path(event) %></li>
+      <li><%= link_to event.title, finalEvent_path(event) %></li>
     <% end %>
   </ul>
 </div>

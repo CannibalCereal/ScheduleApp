@@ -71,6 +71,14 @@ class EventsController < ApplicationController
     end
   end
 
+  def showFinal
+    @individual = Event.find(params[:id])
+    @groupName = Group.find_by_id(@individual.group_id).name
+    hostID = Event.find_by_id(session[:currEventID]).host_id
+    @hostName = User.find_by_id(hostID).name
+    @start  = FinalEvent.find(params[:id]).start.split('T')
+  end
+
   private
   def event_params
     params.permit(:arr)
